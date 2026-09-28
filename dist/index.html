@@ -1,0 +1,1262 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081a31">
+  <meta name="description" content="Voyager After Dark: an offline nautical bar-crawl mission for Marella Voyager.">
+  <title>Voyager After Dark</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23081a31'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%2341e3d2' stroke-width='4'/%3E%3Cpath d='M32 7v14M32 43v14M7 32h14M43 32h14' stroke='%23ff6b78' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ffd166'/%3E%3C/svg%3E">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #f7fbff;
+      --muted: #adc0d5;
+      --navy: #061427;
+      --navy-2: #0a203b;
+      --panel: rgba(11, 35, 63, 0.88);
+      --panel-solid: #0d2948;
+      --line: rgba(176, 210, 236, 0.18);
+      --aqua: #41e3d2;
+      --coral: #ff6b78;
+      --gold: #ffd166;
+      --green: #7ae6a3;
+      --shadow: 0 18px 54px rgba(0, 0, 0, 0.36);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { min-height: 100%; background: var(--navy); }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      min-height: 100dvh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 8% 12%, rgba(65, 227, 210, 0.11), transparent 28rem),
+        radial-gradient(circle at 92% 22%, rgba(255, 107, 120, 0.10), transparent 24rem),
+        linear-gradient(180deg, #07172b 0%, #061427 48%, #030c19 100%);
+      font-family: Inter, ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    button:focus-visible, input:focus-visible, summary:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    .shell {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      padding: 18px 16px calc(36px + env(safe-area-inset-bottom));
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      background: linear-gradient(145deg, rgba(65, 227, 210, 0.18), rgba(255, 107, 120, 0.16));
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow: 0 8px 26px rgba(0,0,0,.25);
+      font-size: 1.35rem;
+    }
+
+    .brand-copy strong { display: block; font-size: 0.95rem; letter-spacing: .02em; }
+    .brand-copy span { color: var(--muted); font-size: 0.78rem; }
+
+    .icon-btn {
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: rgba(255,255,255,.06);
+      cursor: pointer;
+      display: inline-grid;
+      place-items: center;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 310px;
+      overflow: hidden;
+      border-radius: 30px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.15);
+      isolation: isolate;
+      display: flex;
+      align-items: end;
+    }
+
+    .hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background:
+        linear-gradient(180deg, rgba(3,10,22,.08) 0%, rgba(3,10,22,.20) 32%, rgba(3,10,22,.94) 100%),
+        linear-gradient(90deg, rgba(3,10,22,.64), transparent 72%);
+    }
+
+    .hero-copy { padding: 28px; max-width: 660px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 10px;
+      color: var(--aqua);
+      font-size: .79rem;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 25px;
+      height: 2px;
+      border-radius: 4px;
+      background: currentColor;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      margin-bottom: 9px;
+      font-size: clamp(2.35rem, 9vw, 4.35rem);
+      line-height: .92;
+      letter-spacing: -.055em;
+      text-wrap: balance;
+      text-shadow: 0 4px 18px rgba(0,0,0,.38);
+    }
+
+    h1 span { color: var(--gold); }
+
+    .hero-copy > p {
+      max-width: 52ch;
+      margin: 0;
+      color: #dcecff;
+      font-size: 1.02rem;
+    }
+
+    .status-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 32px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: .78rem;
+      font-weight: 760;
+      color: #eaf5ff;
+      background: rgba(4,17,32,.66);
+      border: 1px solid rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+    }
+
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--aqua); box-shadow: 0 0 0 4px rgba(65,227,210,.12); }
+    .dot.offline { background: var(--gold); box-shadow: 0 0 0 4px rgba(255,209,102,.12); }
+
+    .start-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 14px 40px rgba(0,0,0,.18);
+      backdrop-filter: blur(18px);
+    }
+
+    .setup { padding: 22px; }
+    .setup h2 { margin-bottom: 4px; font-size: 1.35rem; letter-spacing: -.02em; }
+    .subtle { color: var(--muted); font-size: .91rem; }
+
+    .field { display: grid; gap: 7px; margin-top: 18px; }
+    .field label, .group-label { color: #dce9f6; font-size: .88rem; font-weight: 780; }
+
+    .text-input {
+      width: 100%;
+      min-height: 50px;
+      border: 1px solid rgba(188,221,244,.26);
+      border-radius: 15px;
+      padding: 12px 14px;
+      color: var(--ink);
+      background: rgba(1,13,26,.55);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+    }
+
+    .text-input::placeholder { color: #7189a2; }
+
+    .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 9px; }
+
+    .mode-card { position: relative; }
+    .mode-card input { position: absolute; opacity: 0; pointer-events: none; }
+    .mode-card label {
+      display: block;
+      min-height: 105px;
+      padding: 14px;
+      border-radius: 17px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--line);
+      cursor: pointer;
+    }
+    .mode-card label strong { display: block; margin-bottom: 4px; font-size: .96rem; }
+    .mode-card label span { display: block; color: var(--muted); font-size: .79rem; line-height: 1.35; }
+    .mode-card input:checked + label {
+      border-color: var(--aqua);
+      background: rgba(65,227,210,.11);
+      box-shadow: inset 0 0 0 1px var(--aqua);
+    }
+
+    .primary, .secondary, .danger, .ghost {
+      min-height: 50px;
+      border-radius: 16px;
+      padding: 11px 17px;
+      font-weight: 830;
+      border: 0;
+      cursor: pointer;
+      transition: transform .15s ease, filter .15s ease, background .15s ease;
+    }
+    .primary:active, .secondary:active, .danger:active, .ghost:active { transform: translateY(1px) scale(.99); }
+    .primary { color: #02121b; background: linear-gradient(135deg, var(--aqua), #8ef5df); box-shadow: 0 10px 24px rgba(65,227,210,.2); }
+    .secondary { color: #1b0d08; background: linear-gradient(135deg, var(--gold), #ffae65); }
+    .ghost { color: var(--ink); background: rgba(255,255,255,.07); border: 1px solid var(--line); }
+    .danger { color: #ffecef; background: rgba(255,107,120,.13); border: 1px solid rgba(255,107,120,.35); }
+    .wide { width: 100%; margin-top: 18px; }
+
+    .briefing { padding: 22px; display: grid; gap: 14px; align-content: start; }
+    .brief-item { display: grid; grid-template-columns: 38px 1fr; gap: 11px; align-items: start; }
+    .brief-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: rgba(255,255,255,.06); }
+    .brief-item strong { display: block; margin-bottom: 2px; font-size: .92rem; }
+    .brief-item span { color: var(--muted); font-size: .82rem; }
+    .safety-note { padding-top: 14px; border-top: 1px solid var(--line); color: #d7e5f2; font-size: .79rem; }
+
+    .game-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .game-header h1 { margin: 0 0 3px; font-size: clamp(1.55rem, 6vw, 2.35rem); line-height: 1.02; }
+    .game-header p { margin: 0; color: var(--muted); font-size: .83rem; }
+
+    .score-badge {
+      min-width: 78px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      text-align: center;
+      background: linear-gradient(145deg, rgba(255,209,102,.18), rgba(255,107,120,.11));
+      border: 1px solid rgba(255,209,102,.33);
+    }
+    .score-badge strong { display: block; color: var(--gold); font-size: 1.48rem; line-height: 1; }
+    .score-badge span { color: var(--muted); font-size: .68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .09em; }
+
+    .progress-wrap { margin-bottom: 15px; }
+    .progress-meta { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 7px; color: var(--muted); font-size: .78rem; }
+    .progress-track { height: 9px; border-radius: 999px; background: rgba(255,255,255,.07); overflow: hidden; border: 1px solid rgba(255,255,255,.06); }
+    .progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--aqua), var(--gold), var(--coral)); transition: width .35s ease; }
+
+    .passport-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 14px 15px;
+      border-radius: 19px;
+      background: linear-gradient(135deg, rgba(65,227,210,.08), rgba(255,209,102,.07));
+      border: 1px solid var(--line);
+    }
+    .passport-copy strong { display: block; font-size: .84rem; }
+    .passport-copy span { display: block; color: var(--muted); font-size: .72rem; }
+    .passport-marks { display: flex; justify-content: flex-end; gap: 6px; min-width: 0; }
+    .passport-mark {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #7f95aa;
+      background: rgba(0,0,0,.18);
+      border: 1px dashed rgba(190,220,241,.25);
+      filter: grayscale(1);
+      opacity: .58;
+    }
+    .passport-mark.collected {
+      color: #061427;
+      background: var(--mark);
+      border-style: solid;
+      border-color: rgba(255,255,255,.5);
+      filter: none;
+      opacity: 1;
+      box-shadow: 0 0 0 4px color-mix(in srgb, var(--mark) 14%, transparent);
+    }
+    .passport-mark.current { border-color: var(--aqua); opacity: 1; filter: none; animation: pulse-mark 1.8s ease-in-out infinite; }
+    @keyframes pulse-mark { 50% { transform: scale(1.08); box-shadow: 0 0 0 5px rgba(65,227,210,.10); } }
+
+    .venue-card { overflow: hidden; }
+    .venue-banner {
+      position: relative;
+      padding: 22px;
+      min-height: 166px;
+      display: flex;
+      align-items: end;
+      isolation: isolate;
+      background: linear-gradient(135deg, color-mix(in srgb, var(--venue) 27%, #091a31), #08182e 72%);
+    }
+    .venue-banner::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      right: -64px;
+      top: -80px;
+      background: radial-gradient(circle, color-mix(in srgb, var(--venue) 56%, transparent), transparent 68%);
+      filter: blur(2px);
+    }
+    .venue-icon { position: absolute; right: 23px; top: 17px; font-size: 3.25rem; filter: drop-shadow(0 8px 12px rgba(0,0,0,.27)); }
+    .deck-tag { display: inline-flex; padding: 5px 10px; margin-bottom: 8px; border-radius: 999px; color: #04121c; background: var(--venue); font-size: .75rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+    .venue-banner h2 { margin: 0 0 4px; font-size: clamp(1.65rem, 7vw, 2.45rem); line-height: 1; letter-spacing: -.04em; }
+    .venue-banner p { margin: 0; max-width: 52ch; color: #d9e7f3; font-size: .88rem; }
+
+    .mission { padding: 21px; }
+    .mission-kicker { margin: 0 0 6px; color: var(--venue); font-size: .76rem; font-weight: 880; letter-spacing: .12em; text-transform: uppercase; }
+    .mission h3 { margin-bottom: 8px; font-size: 1.35rem; letter-spacing: -.025em; }
+    .mission-text { color: #d9e7f3; font-size: .99rem; }
+    .mission-note { display: flex; gap: 9px; margin: 14px 0; padding: 12px; border-radius: 15px; color: #c8d9e8; background: rgba(255,255,255,.045); font-size: .79rem; }
+
+    .timer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin: 15px 0;
+      padding: 12px 14px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(3,15,29,.5);
+    }
+    .timer-copy strong { display: block; font-size: .86rem; }
+    .timer-copy span { color: var(--muted); font-size: .74rem; }
+    .timer-display { min-width: 67px; text-align: center; color: var(--gold); font-size: 1.45rem; font-variant-numeric: tabular-nums; font-weight: 900; }
+    .timer button { min-height: 40px; padding: 8px 12px; border-radius: 12px; }
+
+    .order-card {
+      position: relative;
+      margin-top: 14px;
+      padding: 15px 48px 15px 15px;
+      border-radius: 17px;
+      background: linear-gradient(135deg, rgba(255,107,120,.14), rgba(255,209,102,.08));
+      border: 1px dashed rgba(255,107,120,.48);
+    }
+    .order-card small { display: block; margin-bottom: 3px; color: var(--coral); font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .order-card p { margin: 0; color: #f7e9e8; font-size: .88rem; }
+    .order-card button { position: absolute; right: 8px; top: 9px; width: 36px; height: 36px; border: 0; border-radius: 11px; color: var(--ink); background: rgba(255,255,255,.08); cursor: pointer; }
+
+    .action-stack { display: grid; gap: 9px; margin-top: 18px; }
+    .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .action-stack button { width: 100%; }
+
+    .success-box {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(122,230,163,.09);
+      border: 1px solid rgba(122,230,163,.28);
+    }
+    .success-box h3 { color: var(--green); }
+    .success-box p { color: #d8ecdf; font-size: .88rem; }
+
+    .route-panel { margin-top: 15px; overflow: hidden; }
+    .route-panel summary { cursor: pointer; padding: 17px 19px; font-weight: 820; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+    .route-panel summary::-webkit-details-marker { display: none; }
+    .route-panel summary::after { content: "+"; color: var(--aqua); font-size: 1.35rem; }
+    .route-panel[open] summary::after { content: "−"; }
+    .route-list { display: grid; gap: 0; padding: 0 18px 18px; }
+    .route-stop { display: grid; grid-template-columns: 32px 1fr auto; gap: 10px; align-items: center; min-height: 49px; border-top: 1px solid var(--line); }
+    .route-status { width: 28px; height: 28px; border-radius: 9px; display: grid; place-items: center; background: rgba(255,255,255,.055); color: var(--muted); font-size: .75rem; font-weight: 900; }
+    .route-stop.current .route-status { color: #05131d; background: var(--aqua); }
+    .route-stop.done .route-status { color: #03130b; background: var(--green); }
+    .route-stop.skipped .route-status { color: #211600; background: var(--gold); }
+    .route-name { font-size: .86rem; font-weight: 760; }
+    .route-deck { color: var(--muted); font-size: .72rem; }
+
+    .finish { overflow: hidden; text-align: center; }
+    .finish-hero { padding: 34px 24px 27px; background: radial-gradient(circle at 50% 0, rgba(255,209,102,.26), transparent 48%), linear-gradient(140deg, #102f50, #08182d); }
+    .finish-icon { font-size: 4rem; margin-bottom: 7px; filter: drop-shadow(0 10px 20px rgba(0,0,0,.25)); }
+    .finish h1 { font-size: clamp(2.25rem, 9vw, 3.8rem); margin-bottom: 8px; }
+    .rank { color: var(--gold); font-size: 1.07rem; font-weight: 900; text-transform: uppercase; letter-spacing: .08em; }
+    .big-score { margin: 16px auto 0; width: 116px; height: 116px; border-radius: 50%; display: grid; place-items: center; background: rgba(4,16,30,.7); border: 2px solid var(--gold); box-shadow: 0 0 0 9px rgba(255,209,102,.08); }
+    .big-score strong { display: block; font-size: 2.8rem; line-height: .8; }
+    .big-score span { color: var(--muted); font-size: .72rem; font-weight: 800; text-transform: uppercase; }
+    .finish-body { padding: 22px; text-align: left; }
+    .result-list { display: grid; gap: 8px; margin: 16px 0 20px; }
+    .result-row { display: flex; justify-content: space-between; gap: 14px; padding: 11px 12px; border-radius: 14px; background: rgba(255,255,255,.045); font-size: .84rem; }
+    .result-row span:last-child { color: var(--muted); }
+
+    dialog {
+      width: min(calc(100% - 28px), 520px);
+      max-height: calc(100dvh - 32px);
+      border: 1px solid rgba(255,255,255,.15);
+      border-radius: 25px;
+      padding: 0;
+      color: var(--ink);
+      background: #0b213c;
+      box-shadow: 0 24px 80px rgba(0,0,0,.65);
+    }
+    dialog::backdrop { background: rgba(1,7,15,.76); backdrop-filter: blur(6px); }
+    .dialog-body { padding: 23px; }
+    .dialog-body h2 { margin-bottom: 7px; }
+    .dialog-body ol, .dialog-body ul { padding-left: 22px; color: #d6e4f1; }
+    .dialog-body li { margin-bottom: 8px; }
+    .dialog-actions { display: grid; gap: 8px; margin-top: 19px; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(18px + env(safe-area-inset-bottom));
+      transform: translate(-50%, 130%);
+      z-index: 100;
+      width: min(calc(100% - 32px), 520px);
+      padding: 13px 16px;
+      border-radius: 15px;
+      color: #031017;
+      background: #e9fbf7;
+      box-shadow: 0 16px 40px rgba(0,0,0,.4);
+      font-weight: 800;
+      text-align: center;
+      transition: transform .24s ease;
+    }
+    .toast.show { transform: translate(-50%, 0); }
+
+    .confetti { position: fixed; inset: 0; z-index: 80; overflow: hidden; pointer-events: none; }
+    .confetti i { position: absolute; top: -20px; width: 9px; height: 18px; border-radius: 3px; animation: fall 1.45s ease-in forwards; }
+    @keyframes fall { to { transform: translate3d(var(--drift), 110vh, 0) rotate(640deg); opacity: .2; } }
+
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+    @media (max-width: 720px) {
+      .shell { padding-top: 12px; }
+      .start-grid { grid-template-columns: 1fr; }
+      .hero { min-height: 350px; }
+      .hero-copy { padding: 23px; }
+      .briefing { grid-template-columns: 1fr 1fr; }
+      .safety-note { grid-column: 1 / -1; }
+    }
+
+    @media (max-width: 470px) {
+      .brand-copy span { display: none; }
+      .hero { min-height: 370px; border-radius: 24px; }
+      .hero img { object-position: 67% center; }
+      .hero-copy { padding: 21px; }
+      .mode-grid, .briefing { grid-template-columns: 1fr; }
+      .safety-note { grid-column: auto; }
+      .setup, .mission, .finish-body { padding: 18px; }
+      .venue-banner { padding: 19px; min-height: 150px; }
+      .venue-icon { font-size: 2.75rem; }
+      .passport-card { grid-template-columns: 1fr; gap: 9px; }
+      .passport-marks { justify-content: space-between; }
+      .passport-mark { width: 32px; height: 32px; flex-basis: 32px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main id="app" class="shell"></main>
+
+  <dialog id="installDialog">
+    <div class="dialog-body">
+      <p class="eyebrow">Offline mode</p>
+      <h2>Keep the mission on your phone</h2>
+      <p class="subtle">Once added to your Home Screen, the whole game works without ship Wi-Fi.</p>
+      <ol>
+        <li>Open this page in Safari.</li>
+        <li>Tap the <strong>Share</strong> button.</li>
+        <li>Choose <strong>Add to Home Screen</strong>, then tap <strong>Add</strong>.</li>
+        <li>Open it once before sailing. Your progress stays on this device.</li>
+      </ol>
+      <div class="dialog-actions">
+        <button class="primary" data-action="native-install">Install now</button>
+        <button class="ghost" data-action="close-dialog">Not now</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="menuDialog">
+    <div class="dialog-body">
+      <p class="eyebrow">Mission control</p>
+      <h2>Game options</h2>
+      <div class="dialog-actions">
+        <button class="primary" data-action="show-install">Use offline</button>
+        <button class="ghost" data-action="show-safety">Rules &amp; safety</button>
+        <button class="danger" data-action="reset-game">Reset this mission</button>
+        <button class="ghost" data-action="close-dialog">Close</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog id="safetyDialog">
+    <div class="dialog-body">
+      <p class="eyebrow">Play it your way</p>
+      <h2>No drinking required</h2>
+      <ul>
+        <li>Water, soft drinks and alcohol-free choices count at every stop.</li>
+        <li>Never rush on stairs or decks. Use the lifts if anyone feels unsteady.</li>
+        <li>Follow venue opening times, age rules and crew instructions.</li>
+        <li>The Exchange is adults-only; some experiences are chargeable and need booking.</li>
+        <li>Anyone can skip a challenge or finish the game at any time.</li>
+      </ul>
+      <button class="primary wide" data-action="close-dialog">Understood</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="live" class="sr-only" aria-live="polite"></div>
+
+  <script>
+    const STORAGE_KEY = "voyager-after-dark-v1";
+
+    const VENUES = [
+      {
+        id: "flutes",
+        name: "Flutes",
+        deck: "Decks 5 & 6",
+        icon: "🥂",
+        mark: "Ship’s Bell",
+        markIcon: "🔔",
+        colour: "#ffd166",
+        intro: "The ship’s ceremonial launch point. Ring in the voyage with a proper christening challenge.",
+        note: "Champagne can cost extra. Prosecco, soft drinks or water work perfectly for every mission.",
+        points: 12,
+        missions: [
+          { title: "Christen the voyage", text: "Choose the ship’s sponsor. They must christen tonight’s mission with an exactly seven-word toast while the crew counts each word.", seconds: 30, bonus: "Earn the bonus if the toast includes both ‘Voyager’ and ‘sea’." },
+          { title: "The captain’s announcement", text: "Deliver a ten-second welcome announcement for tonight’s completely unofficial sailing. Every crew member needs a job title.", seconds: 30, bonus: "Earn the bonus if someone is appointed Chief Iceberg Lookout." },
+          { title: "Name the vessel", text: "Your crew has acquired a suspiciously small luxury liner. Agree on its name, home port and one ridiculous onboard rule.", seconds: 45, bonus: "Earn the bonus if the vessel’s name uses alliteration." }
+        ]
+      },
+      {
+        id: "arts-house",
+        name: "The Arts House",
+        deck: "Deck 6",
+        icon: "🎨",
+        mark: "Signal Flag",
+        markIcon: "🚩",
+        colour: "#ff8fa3",
+        intro: "The ship’s signal station. Create something worthy of flying above the bridge.",
+        note: "Keep pathways clear and use only your own paper or phone notes for drawing challenges.",
+        points: 14,
+        missions: [
+          { title: "Design the crew flag", text: "Sketch a simple signal flag for your crew using only three shapes. The others must explain what message it sends.", seconds: 40, bonus: "Earn the bonus if everyone agrees what the flag means." },
+          { title: "Figurehead formation", text: "Create a group pose for the imaginary figurehead on the bow of your vessel and hold it until the timer ends.", seconds: 20, bonus: "Earn the bonus if nobody laughs or breaks character." },
+          { title: "Draw the route", text: "Without lifting finger or pen, draw a map from tonight’s first venue to the final dancefloor. Accuracy is actively discouraged.", seconds: 30, bonus: "Earn the bonus if the map includes a sea monster." }
+        ]
+      },
+      {
+        id: "squid",
+        name: "Squid & Anchor",
+        deck: "Deck 7",
+        icon: "⚓",
+        mark: "Golden Anchor",
+        markIcon: "⚓",
+        colour: "#41e3d2",
+        intro: "The crew’s proper pub and the natural home of nautical trivia, tall tales and shanties.",
+        note: "Live music, quizzes and games can be running here, so keep your mission quiet if a show has started.",
+        points: 15,
+        missions: [
+          { title: "Port, starboard, stern", text: "The captain calls three directions in any order. The crew must point correctly: port is left, starboard is right and stern is behind.", seconds: 25, bonus: "Earn the bonus if everyone gets all three right first time." },
+          { title: "Nautical alphabet", text: "Starting with A, take turns naming something connected with ships or the sea. Reach J without a repeat or a long pause.", seconds: 50, bonus: "Earn the bonus if nobody uses ‘boat’." },
+          { title: "Build a sea shanty", text: "The captain sings one made-up line about Voyager. Each player adds a rhyming line until the crew has a chorus.", seconds: 45, bonus: "Earn the bonus if the whole crew performs the final chorus together." }
+        ]
+      },
+      {
+        id: "aperitif",
+        name: "Aperitif",
+        deck: "Deck 7",
+        icon: "🍸",
+        mark: "Brass Compass",
+        markIcon: "🧭",
+        colour: "#d9a7ff",
+        intro: "The officers’ plotting room—where the next port and the ship’s finest imaginary drink are decided.",
+        note: "Premium spirits may cost extra. The mission never depends on what anyone orders.",
+        points: 12,
+        missions: [
+          { title: "Chart the house special", text: "Invent a cocktail or mocktail named after a sea, island or famous voyage. The crew votes for the one worthy of the captain’s table.", seconds: 45, bonus: "Earn the bonus if the winning name uses alliteration." },
+          { title: "Message in a bottle", text: "Compose a six-word message for a bottle found drifting at sea. Agree on every word before time runs out.", seconds: 35, bonus: "Earn the bonus if it ends with a mystery." },
+          { title: "Latitude zero", text: "Imagine Voyager has crossed the equator. Each player gives one item the captain absolutely must add to the official log.", seconds: 35, bonus: "Earn the bonus if every log entry is different." }
+        ]
+      },
+      {
+        id: "exchange",
+        name: "The Exchange",
+        deck: "Deck 8",
+        icon: "🗝️",
+        mark: "Secret Chart Key",
+        markIcon: "🗝️",
+        colour: "#f2b880",
+        intro: "The hidden chart room. Your ship’s papers and cover story must survive inspection.",
+        note: "Adults-only. Some immersive evenings are chargeable and pre-bookable. This mission works outside if you are not going in.",
+        points: 18,
+        missions: [
+          { title: "Inspect the ship’s papers", text: "Invent your vessel’s name, cargo and suspicious destination. The captain must present the story without hesitating.", seconds: 35, bonus: "Earn the bonus if the cargo is both valuable and completely useless." },
+          { title: "The stowaway’s story", text: "Explain how the crew secretly boarded Voyager. Each player adds exactly one sentence to the tale.", seconds: 40, bonus: "Earn the bonus if the final sentence changes who the stowaway is." },
+          { title: "Signal in Morse", text: "Tap SOS together: three short, three long, three short. Keep it quiet and use fingertips only.", seconds: 20, bonus: "Earn the bonus if the whole crew stays in perfect time." }
+        ]
+      },
+      {
+        id: "summer-house",
+        name: "The Summer House",
+        deck: "Deck 11",
+        icon: "🌅",
+        mark: "Lookout’s Spyglass",
+        markIcon: "🔭",
+        colour: "#ff9e63",
+        intro: "Report to the lookout station for horizon duty before the final climb to Deck 12.",
+        note: "Outdoor areas can close in poor weather. If so, complete the mission from the nearest open indoor space.",
+        points: 15,
+        missions: [
+          { title: "Lookout’s report", text: "Study the view for ten seconds, then turn away. As a crew, name five things you noticed without checking again.", seconds: 35, bonus: "Earn the bonus if one detail was on the horizon." },
+          { title: "Captain’s weather report", text: "Deliver tomorrow’s wildly dramatic marine forecast using the words ‘swell’, ‘visibility’ and ‘deckchair’.", seconds: 25, bonus: "Earn the bonus if the report includes a warning for sea monsters." },
+          { title: "Around the world", text: "Take turns naming ports or countries you would sail to. No repeats and no pause longer than three seconds.", seconds: 50, bonus: "Earn the bonus if the crew reaches twelve destinations." }
+        ]
+      },
+      {
+        id: "electric",
+        name: "The Electric Rooms",
+        deck: "Deck 12",
+        icon: "🪩",
+        mark: "Captain’s Wheel",
+        markIcon: "☸️",
+        colour: "#67d7ff",
+        intro: "The top-deck finale. Take the wheel, sound the imaginary horn and bring the voyage home.",
+        note: "The casino is never part of the game. No bets, purchases or alcohol are required.",
+        points: 20,
+        missions: [
+          { title: "Deck-party drill", text: "The captain calls port, starboard, bow or stern. The crew must dance in that direction until the next command.", seconds: 30, bonus: "Earn the bonus if nobody follows the wrong order." },
+          { title: "Invisible silent disco", text: "Choose an imaginary sea shanty remix. Everyone dances to it for twenty seconds with no music and no explanation.", seconds: 20, bonus: "Earn the bonus if the crew stops on exactly the same beat." },
+          { title: "Bring her into port", text: "In slow motion, act out Voyager’s triumphant arrival: captain at the wheel, lookout, harbourmaster and cheering passengers.", seconds: 25, bonus: "Earn the bonus if everyone freezes for the final ship’s-horn blast." }
+        ]
+      }
+    ];
+
+    const ORDERS = [
+      "Fresh-water drill: everybody has a glass of water before the next checkpoint.",
+      "Appoint a flag bearer. They lead the crew to the next deck with an imaginary signal flag.",
+      "All hands on deck: the captain gives one order and the crew must answer ‘Aye aye!’ together.",
+      "Shipshape inspection: everyone straightens one item of clothing before leaving this venue.",
+      "Captain’s log: each sailor names their favourite moment of the cruise so far.",
+      "Steady as she goes: use the lift for the next deck if anyone feels even slightly unsteady.",
+      "Dry-ship wildcard: anyone choosing water, a soft drink or mocktail earns the crew a salute.",
+      "Logbook portrait: create a five-second crew photo pose. Taking an actual photo is optional.",
+      "Radio silence: phones stay away until the next checkpoint, except for this mission screen.",
+      "Lookout duty: nominate one sailor to spot the next nautical sign, artwork or ship detail."
+    ];
+
+    const QUICK_ROUTE = ["arts-house", "squid", "summer-house", "electric"];
+
+    function freshState() {
+      return {
+        version: 1,
+        started: false,
+        finished: false,
+        crewName: "",
+        players: [],
+        mode: "full",
+        route: [],
+        current: 0,
+        score: 0,
+        stopStatus: {},
+        missionIndex: {},
+        orderIndex: {},
+        bonusClaimed: {},
+        startedAt: null
+      };
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+        return saved && saved.version === 1 ? { ...freshState(), ...saved } : freshState();
+      } catch { return freshState(); }
+    }
+
+    let state = loadState();
+    let deferredInstall = null;
+    let timerInterval = null;
+    let timerLeft = 0;
+    let offlineReady = false;
+
+    const app = document.querySelector("#app");
+    const toast = document.querySelector("#toast");
+    const live = document.querySelector("#live");
+
+    function saveState() { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+    function venueById(id) { return VENUES.find(venue => venue.id === id); }
+    function currentVenue() { return venueById(state.route[state.current]); }
+    function esc(value = "") { return String(value).replace(/[&<>'"]/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"})[char]); }
+
+    function currentCaptain() {
+      if (!state.players.length) return "The crew";
+      return state.players[state.current % state.players.length];
+    }
+
+    function missionFor(venue) {
+      if (state.missionIndex[venue.id] === undefined) {
+        state.missionIndex[venue.id] = Math.floor(Math.random() * venue.missions.length);
+        saveState();
+      }
+      return venue.missions[state.missionIndex[venue.id] % venue.missions.length];
+    }
+
+    function orderFor(venue) {
+      if (state.orderIndex[venue.id] === undefined) {
+        state.orderIndex[venue.id] = Math.floor(Math.random() * ORDERS.length);
+        saveState();
+      }
+      return ORDERS[state.orderIndex[venue.id] % ORDERS.length];
+    }
+
+    function header(menu = true) {
+      return `
+        <div class="topbar">
+          <div class="brand">
+            <div class="brand-mark" aria-hidden="true">🧭</div>
+            <div class="brand-copy"><strong>Voyager After Dark</strong><span>Marella Voyager mission</span></div>
+          </div>
+          ${menu ? '<button class="icon-btn" data-action="open-menu" aria-label="Open game options">•••</button>' : '<button class="icon-btn" data-action="show-install" aria-label="Offline setup">↓</button>'}
+        </div>`;
+    }
+
+    function renderStart() {
+      app.innerHTML = `
+        ${header(false)}
+        <section class="hero">
+          <img src="./assets/night-deck.webp" alt="Illustrated cruise ship deck beneath a starry night sky">
+          <div class="hero-copy">
+            <p class="eyebrow">Your mission awaits</p>
+            <h1>Voyager<br><span>After Dark</span></h1>
+            <p>Seven venues. Seven sea marks. One deck-by-deck voyage that works even when the ship’s Wi-Fi does not.</p>
+            <div class="status-row">
+              <span class="pill"><span class="dot ${navigator.onLine ? '' : 'offline'}"></span><span id="connectionText">${offlineReady ? 'Ready offline' : (navigator.onLine ? 'Preparing offline mode' : 'You are offline')}</span></span>
+              <span class="pill">No drinking required</span>
+            </div>
+          </div>
+        </section>
+
+        <div class="start-grid">
+          <section class="panel setup" aria-labelledby="setup-title">
+            <h2 id="setup-title">Assemble your crew</h2>
+            <p class="subtle">Names rotate the role of mission captain.</p>
+            <div class="field">
+              <label for="crewName">Crew name</label>
+              <input class="text-input" id="crewName" maxlength="40" placeholder="e.g. The Atlantic Rascals" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="players">Players <span class="subtle">(separate with commas)</span></label>
+              <input class="text-input" id="players" maxlength="140" placeholder="Steve, Wendy, Ismay" autocomplete="off">
+            </div>
+            <div class="field">
+              <span class="group-label">Choose the mission</span>
+              <div class="mode-grid" role="radiogroup" aria-label="Mission length">
+                <div class="mode-card">
+                  <input id="mode-full" type="radio" name="mode" value="full" checked>
+                  <label for="mode-full"><strong>The full voyage</strong><span>7 venues · 7 sea marks · includes the optional Exchange stop.</span></label>
+                </div>
+                <div class="mode-card">
+                  <input id="mode-quick" type="radio" name="mode" value="quick">
+                  <label for="mode-quick"><strong>Four-knot dash</strong><span>4 venues · 4 sea marks · roughly 60–90 minutes.</span></label>
+                </div>
+              </div>
+            </div>
+            <button class="primary wide" data-action="start-game">Cast off</button>
+          </section>
+
+          <aside class="panel briefing" aria-label="Mission briefing">
+            <div class="brief-item"><div class="brief-icon">🧭</div><div><strong>Real Voyager route</strong><span>Every checkpoint is matched to the correct deck.</span></div></div>
+            <div class="brief-item"><div class="brief-icon">📜</div><div><strong>Ship’s passport</strong><span>Complete a challenge to collect each venue’s sea mark.</span></div></div>
+            <div class="brief-item"><div class="brief-icon">📴</div><div><strong>Built for offline</strong><span>Add it to your Home Screen before sailing.</span></div></div>
+            <div class="brief-item"><div class="brief-icon">🥤</div><div><strong>Any drink counts</strong><span>Water, soft drinks and mocktails are always valid.</span></div></div>
+            <p class="safety-note">Unofficial, fan-made game. Keep it fun and follow crew instructions. Venue times and onboard entertainment may change during your sailing.</p>
+          </aside>
+        </div>`;
+    }
+
+    function routeHtml() {
+      return state.route.map((id, index) => {
+        const venue = venueById(id);
+        const status = state.stopStatus[id];
+        const klass = index === state.current && !state.finished ? "current" : status === "completed" ? "done" : status === "skipped" ? "skipped" : "";
+        const marker = status === "completed" ? venue.markIcon : status === "skipped" ? "–" : index + 1;
+        return `<div class="route-stop ${klass}"><span class="route-status">${marker}</span><span class="route-name">${venue.name}</span><span class="route-deck">${venue.deck}</span></div>`;
+      }).join("");
+    }
+
+    function passportHtml() {
+      return state.route.map((id, index) => {
+        const venue = venueById(id);
+        const collected = state.stopStatus[id] === "completed";
+        const current = index === state.current && !state.finished;
+        const label = collected ? `${venue.mark} collected` : `${venue.mark} not yet collected`;
+        return `<span class="passport-mark ${collected ? "collected" : ""} ${current ? "current" : ""}" style="--mark:${venue.colour}" title="${venue.mark}" aria-label="${label}">${venue.markIcon}</span>`;
+      }).join("");
+    }
+
+    function renderGame() {
+      const venue = currentVenue();
+      if (!venue) { finishGame(); return; }
+      const mission = missionFor(venue);
+      const status = state.stopStatus[venue.id];
+      const completedCount = Object.values(state.stopStatus).filter(value => value === "completed" || value === "skipped").length;
+      const progress = Math.round((completedCount / state.route.length) * 100);
+      const isDone = status === "completed" || status === "skipped";
+
+      app.innerHTML = `
+        ${header(true)}
+        <header class="game-header">
+          <div><p class="eyebrow">Voyage leg ${state.current + 1} of ${state.route.length}</p><h1>${esc(state.crewName)}</h1><p>Officer of the watch: <strong>${esc(currentCaptain())}</strong></p></div>
+          <div class="score-badge" aria-label="Current score ${state.score} points"><strong>${state.score}</strong><span>points</span></div>
+        </header>
+        <div class="progress-wrap" aria-label="Mission progress ${progress}%">
+          <div class="progress-meta"><span>${completedCount} voyage legs cleared</span><span>${progress}%</span></div>
+          <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
+        </div>
+        <div class="passport-card" aria-label="Ship's passport">
+          <div class="passport-copy"><strong>Ship’s passport</strong><span>Collect a sea mark at every stop</span></div>
+          <div class="passport-marks">${passportHtml()}</div>
+        </div>
+
+        <article class="panel venue-card" style="--venue:${venue.colour}">
+          <div class="venue-banner">
+            <span class="venue-icon" aria-hidden="true">${venue.icon}</span>
+            <div><span class="deck-tag">${venue.deck}</span><h2>${venue.name}</h2><p>${venue.intro}</p></div>
+          </div>
+          <div class="mission">
+            ${isDone ? successHtml(venue, status) : `
+              <p class="mission-kicker">Sea trial · ${venue.points} points</p>
+              <h3>${mission.title}</h3>
+              <p class="mission-text">${mission.text}</p>
+              <div class="mission-note"><span aria-hidden="true">ⓘ</span><span>${venue.note}</span></div>
+              <div class="timer">
+                <div class="timer-copy"><strong>Challenge timer</strong><span>Stops automatically at zero</span></div>
+                <span class="timer-display" id="timerDisplay">${formatTimer(mission.seconds)}</span>
+                <button class="ghost" data-action="start-timer" data-seconds="${mission.seconds}">Start</button>
+              </div>
+              <div class="order-card"><small>Captain’s order</small><p>${orderFor(venue)}</p><button data-action="new-order" aria-label="Draw another captain's order">↻</button></div>
+              <div class="action-stack">
+                <button class="primary" data-action="complete-mission">Mission complete · +${venue.points}</button>
+                <div class="action-row"><button class="ghost" data-action="swap-mission">Swap challenge</button><button class="ghost" data-action="skip-stop">Skip venue</button></div>
+              </div>`}
+          </div>
+        </article>
+
+        <details class="panel route-panel">
+          <summary>Tonight’s route <span class="subtle">${state.route.length} stops</span></summary>
+          <div class="route-list">${routeHtml()}</div>
+        </details>`;
+    }
+
+    function successHtml(venue, status) {
+      const mission = missionFor(venue);
+      const bonusDone = state.bonusClaimed[venue.id];
+      const last = state.current === state.route.length - 1;
+      if (status === "skipped") {
+        return `<div class="success-box"><p class="mission-kicker">Port bypassed</p><h3>No problem—voyage intact.</h3><p>You can still finish the route. Opening times, queues and energy levels outrank the game.</p><button class="primary wide" data-action="next-stop">${last ? "Open the captain’s log" : "Sail to the next stop"}</button></div>`;
+      }
+      return `<div class="success-box"><p class="mission-kicker">Sea mark collected</p><h3>${venue.markIcon} ${venue.mark}</h3><p>The mark is now stamped into your ship’s passport.</p><p><strong>Bonus trial:</strong> ${mission.bonus}</p>${bonusDone ? '<p>Bonus banked · +5 points</p>' : '<button class="secondary wide" data-action="claim-bonus">Claim bonus · +5</button>'}<button class="primary wide" data-action="next-stop">${last ? "Open the captain’s log" : "Sail to the next stop"}</button></div>`;
+    }
+
+    function rankFor(score) {
+      const maximum = state.route.reduce((total, id) => total + venueById(id).points + 5, 0) || 1;
+      const ratio = score / maximum;
+      if (ratio >= .9) return ["Admiral of After Dark", "🏆"];
+      if (ratio >= .7) return ["Voyager Night Legend", "🪩"];
+      if (ratio >= .45) return ["First Mate of Mischief", "⚓"];
+      return ["Honourable Deckhand", "🧭"];
+    }
+
+    function renderFinish() {
+      const [rank, icon] = rankFor(state.score);
+      const completed = Object.values(state.stopStatus).filter(value => value === "completed").length;
+      const skipped = Object.values(state.stopStatus).filter(value => value === "skipped").length;
+      const minutes = state.startedAt ? Math.max(1, Math.round((Date.now() - state.startedAt) / 60000)) : 0;
+      app.innerHTML = `
+        ${header(true)}
+        <section class="panel finish">
+          <div class="finish-hero">
+            <div class="finish-icon" aria-hidden="true">${icon}</div>
+            <p class="eyebrow">Mission complete</p>
+            <h1>${esc(state.crewName)}</h1>
+            <div class="rank">${rank}</div>
+            <div class="big-score"><div><strong>${state.score}</strong><span>points</span></div></div>
+          </div>
+          <div class="finish-body">
+            <h2>Captain’s log</h2>
+            <p class="subtle">The official record of a highly unofficial voyage.</p>
+            <div class="result-list">
+              <div class="result-row"><span>Sea marks collected</span><span>${completed} of ${state.route.length}</span></div>
+              <div class="result-row"><span>Venues skipped</span><span>${skipped}</span></div>
+              <div class="result-row"><span>Mission time</span><span>${minutes} minutes</span></div>
+              <div class="result-row"><span>Crew</span><span>${esc(state.players.join(", ") || "Anonymous agents")}</span></div>
+            </div>
+            <div class="action-stack">
+              <button class="primary" data-action="share-result">Share the result</button>
+              <button class="ghost" data-action="play-again">Start a new mission</button>
+            </div>
+          </div>
+        </section>`;
+    }
+
+    function render() {
+      stopTimer();
+      if (state.finished) renderFinish();
+      else if (state.started) renderGame();
+      else renderStart();
+    }
+
+    function startGame() {
+      const crewInput = document.querySelector("#crewName");
+      const playersInput = document.querySelector("#players");
+      const modeInput = document.querySelector('input[name="mode"]:checked');
+      const crewName = crewInput.value.trim() || "The Voyager Crew";
+      const players = playersInput.value.split(",").map(name => name.trim()).filter(Boolean).slice(0, 12);
+      const mode = modeInput ? modeInput.value : "full";
+      state = freshState();
+      state.started = true;
+      state.crewName = crewName;
+      state.players = players;
+      state.mode = mode;
+      state.route = mode === "quick" ? [...QUICK_ROUTE] : VENUES.map(venue => venue.id);
+      state.startedAt = Date.now();
+      saveState();
+      render();
+      showToast("Cast off! Your first sea mark awaits.");
+    }
+
+    function completeMission() {
+      const venue = currentVenue();
+      if (!venue || state.stopStatus[venue.id]) return;
+      state.stopStatus[venue.id] = "completed";
+      state.score += venue.points;
+      saveState();
+      render();
+      celebrate();
+      live.textContent = `${venue.name} complete. ${venue.mark} collected and ${venue.points} points added.`;
+    }
+
+    function claimBonus() {
+      const venue = currentVenue();
+      if (!venue || state.bonusClaimed[venue.id]) return;
+      state.bonusClaimed[venue.id] = true;
+      state.score += 5;
+      saveState();
+      render();
+      showToast("Bonus banked · +5 points");
+    }
+
+    function skipStop() {
+      const venue = currentVenue();
+      if (!venue) return;
+      if (!confirm(`Skip ${venue.name}? You can keep playing with no penalty.`)) return;
+      state.stopStatus[venue.id] = "skipped";
+      saveState();
+      render();
+    }
+
+    function nextStop() {
+      if (state.current >= state.route.length - 1) finishGame();
+      else {
+        state.current += 1;
+        saveState();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        render();
+      }
+    }
+
+    function finishGame() {
+      state.finished = true;
+      saveState();
+      render();
+      celebrate(28);
+    }
+
+    function swapMission() {
+      const venue = currentVenue();
+      state.missionIndex[venue.id] = ((state.missionIndex[venue.id] ?? 0) + 1) % venue.missions.length;
+      saveState();
+      render();
+      showToast("New challenge drawn");
+    }
+
+    function newOrder() {
+      const venue = currentVenue();
+      state.orderIndex[venue.id] = ((state.orderIndex[venue.id] ?? 0) + 1) % ORDERS.length;
+      saveState();
+      render();
+    }
+
+    function formatTimer(seconds) {
+      const mins = Math.floor(seconds / 60);
+      return `${mins}:${String(seconds % 60).padStart(2, "0")}`;
+    }
+
+    function startTimer(seconds) {
+      stopTimer();
+      timerLeft = Number(seconds) || 30;
+      updateTimer();
+      timerInterval = setInterval(() => {
+        timerLeft -= 1;
+        updateTimer();
+        if (timerLeft <= 0) {
+          stopTimer(false);
+          if (navigator.vibrate) navigator.vibrate([160, 80, 160]);
+          showToast("Time! Captain’s decision is final.");
+        }
+      }, 1000);
+    }
+
+    function updateTimer() {
+      const display = document.querySelector("#timerDisplay");
+      if (display) display.textContent = formatTimer(Math.max(0, timerLeft));
+    }
+
+    function stopTimer(reset = true) {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      if (reset) timerLeft = 0;
+    }
+
+    function resetGame() {
+      if (!confirm("Reset this mission and erase its score?")) return;
+      state = freshState();
+      saveState();
+      document.querySelectorAll("dialog[open]").forEach(dialog => dialog.close());
+      render();
+    }
+
+    async function shareResult() {
+      const [rank] = rankFor(state.score);
+      const marks = Object.values(state.stopStatus).filter(value => value === "completed").length;
+      const text = `${state.crewName} collected ${marks} sea marks, scored ${state.score} points and earned “${rank}” on Voyager After Dark!`;
+      try {
+        if (navigator.share) await navigator.share({ title: "Voyager After Dark", text });
+        else {
+          await navigator.clipboard.writeText(text);
+          showToast("Result copied to the clipboard");
+        }
+      } catch (error) {
+        if (error && error.name !== "AbortError") showToast("Sharing is not available on this device");
+      }
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(showToast.timer);
+      showToast.timer = setTimeout(() => toast.classList.remove("show"), 2600);
+    }
+
+    function celebrate(count = 16) {
+      const layer = document.createElement("div");
+      layer.className = "confetti";
+      const colours = ["#41e3d2", "#ff6b78", "#ffd166", "#67d7ff"];
+      for (let i = 0; i < count; i += 1) {
+        const piece = document.createElement("i");
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.background = colours[i % colours.length];
+        piece.style.setProperty("--drift", `${(Math.random() - .5) * 220}px`);
+        piece.style.animationDelay = `${Math.random() * .35}s`;
+        layer.appendChild(piece);
+      }
+      document.body.appendChild(layer);
+      setTimeout(() => layer.remove(), 1900);
+    }
+
+    function showDialog(id) {
+      const dialog = document.querySelector(`#${id}`);
+      if (dialog && !dialog.open) dialog.showModal();
+    }
+
+    async function nativeInstall() {
+      if (deferredInstall) {
+        deferredInstall.prompt();
+        await deferredInstall.userChoice;
+        deferredInstall = null;
+        document.querySelector("#installDialog").close();
+      } else {
+        showToast("Use Safari’s Share menu, then Add to Home Screen");
+      }
+    }
+
+    function registerWebMcpTools() {
+      const context = document.modelContext;
+      if (!context || typeof context.registerTool !== "function") return;
+      const lifecycle = new AbortController();
+      const register = tool => {
+        try {
+          Promise.resolve(context.registerTool(tool, { signal: lifecycle.signal })).catch(() => {});
+        } catch {}
+      };
+
+      register({
+        name: "read_voyager_mission_status",
+        title: "Read mission status",
+        description: "Read the crew, score, current venue and checkpoint progress without changing the game.",
+        inputSchema: { type: "object", properties: {}, additionalProperties: false },
+        annotations: { readOnlyHint: true, untrustedContentHint: false },
+        execute() {
+          const venue = state.started && !state.finished ? currentVenue() : null;
+          return {
+            started: state.started,
+            finished: state.finished,
+            crewName: state.crewName,
+            score: state.score,
+            currentVenue: venue ? venue.name : null,
+            completedCheckpoints: Object.values(state.stopStatus).filter(value => value === "completed").length,
+            totalCheckpoints: state.route.length
+          };
+        }
+      });
+
+      register({
+        name: "start_voyager_mission",
+        title: "Start Voyager mission",
+        description: "Start a new full or quick Voyager After Dark mission and show its first checkpoint.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            crewName: { type: "string", minLength: 1, maxLength: 40 },
+            players: { type: "array", items: { type: "string", minLength: 1, maxLength: 30 }, maxItems: 12 },
+            mode: { type: "string", enum: ["full", "quick"] }
+          },
+          required: ["crewName", "mode"],
+          additionalProperties: false
+        },
+        annotations: { readOnlyHint: false, untrustedContentHint: false },
+        execute(input) {
+          if (!input || typeof input.crewName !== "string" || !["full", "quick"].includes(input.mode)) throw new Error("A crew name and valid mission mode are required.");
+          const players = Array.isArray(input.players) ? input.players.filter(name => typeof name === "string" && name.trim()).slice(0, 12).map(name => name.trim()) : [];
+          state = freshState();
+          state.started = true;
+          state.crewName = input.crewName.trim().slice(0, 40);
+          state.players = players;
+          state.mode = input.mode;
+          state.route = input.mode === "quick" ? [...QUICK_ROUTE] : VENUES.map(venue => venue.id);
+          state.startedAt = Date.now();
+          saveState();
+          render();
+          return { started: true, crewName: state.crewName, mode: state.mode, firstVenue: currentVenue().name, totalCheckpoints: state.route.length };
+        }
+      });
+
+      register({
+        name: "complete_current_checkpoint",
+        title: "Complete current checkpoint",
+        description: "Mark the currently displayed venue mission complete, add its points and update the visible score.",
+        inputSchema: { type: "object", properties: {}, additionalProperties: false },
+        annotations: { readOnlyHint: false, untrustedContentHint: false },
+        execute() {
+          if (!state.started || state.finished) throw new Error("There is no active mission.");
+          const venue = currentVenue();
+          if (!venue || state.stopStatus[venue.id]) throw new Error("The current checkpoint has already been resolved.");
+          completeMission();
+          return { completed: venue.name, pointsAdded: venue.points, score: state.score };
+        }
+      });
+    }
+
+    document.addEventListener("click", event => {
+      const button = event.target.closest("[data-action]");
+      if (!button) return;
+      const action = button.dataset.action;
+      if (action === "start-game") startGame();
+      if (action === "complete-mission") completeMission();
+      if (action === "claim-bonus") claimBonus();
+      if (action === "skip-stop") skipStop();
+      if (action === "next-stop") nextStop();
+      if (action === "swap-mission") swapMission();
+      if (action === "new-order") newOrder();
+      if (action === "start-timer") startTimer(button.dataset.seconds);
+      if (action === "open-menu") showDialog("menuDialog");
+      if (action === "show-install") { document.querySelectorAll("dialog[open]").forEach(dialog => dialog.close()); showDialog("installDialog"); }
+      if (action === "show-safety") { document.querySelectorAll("dialog[open]").forEach(dialog => dialog.close()); showDialog("safetyDialog"); }
+      if (action === "close-dialog") button.closest("dialog").close();
+      if (action === "reset-game" || action === "play-again") resetGame();
+      if (action === "share-result") shareResult();
+      if (action === "native-install") nativeInstall();
+    });
+
+    window.addEventListener("beforeinstallprompt", event => {
+      event.preventDefault();
+      deferredInstall = event;
+    });
+
+    window.addEventListener("online", () => { const el = document.querySelector("#connectionText"); if (el) el.textContent = offlineReady ? "Ready offline" : "Back online"; });
+    window.addEventListener("offline", () => { const el = document.querySelector("#connectionText"); if (el) el.textContent = "Working offline"; });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").then(registration => {
+          offlineReady = Boolean(registration.active || registration.waiting || registration.installing);
+          const el = document.querySelector("#connectionText");
+          if (el && offlineReady) el.textContent = "Ready offline";
+        }).catch(() => {});
+      });
+    }
+
+    registerWebMcpTools();
+    render();
+  </script>
+</body>
+</html>

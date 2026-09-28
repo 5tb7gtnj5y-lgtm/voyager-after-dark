@@ -1,0 +1,19 @@
+{
+  "name": "Voyager After Dark",
+  "short_name": "Voyager Mission",
+  "description": "An offline nautical bar-crawl mission for the bars and clubs aboard Marella Voyager.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#061427",
+  "theme_color": "#081a31",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
