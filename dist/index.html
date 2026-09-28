@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#081a31">
+  <meta name="theme-color" content="#21c8e7">
   <meta name="description" content="Voyager After Dark: an offline nautical bar-crawl mission for Marella Voyager.">
   <title>Voyager After Dark</title>
   <link rel="manifest" href="./manifest.webmanifest">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%23081a31'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%2341e3d2' stroke-width='4'/%3E%3Cpath d='M32 7v14M32 43v14M7 32h14M43 32h14' stroke='%23ff6b78' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ffd166'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='%239becf6'/%3E%3Ccircle cx='32' cy='32' r='19' fill='%23ffffff' stroke='%23173653' stroke-width='4'/%3E%3Cpath d='M32 7v14M32 43v14M7 32h14M43 32h14' stroke='%23ff6847' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23ffd84d' stroke='%23173653' stroke-width='2'/%3E%3C/svg%3E">
   <style>
     :root {
       color-scheme: dark;
@@ -512,6 +512,249 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
+
+    /* Bright cartoon cruise theme, inspired by the supplied Voyager artwork */
+    :root {
+      color-scheme: light;
+      --ink: #102f4f;
+      --muted: #4f6b80;
+      --navy: #72dced;
+      --navy-2: #b8f3fb;
+      --panel: rgba(255,255,255,.96);
+      --panel-solid: #ffffff;
+      --line: #173653;
+      --aqua: #21c8e7;
+      --coral: #ff6847;
+      --gold: #ffd84d;
+      --green: #58d98b;
+      --shadow: 7px 8px 0 rgba(18, 52, 80, .16);
+      --radius: 23px;
+    }
+
+    html { background: #80deed; }
+
+    body {
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 86% 8%, rgba(255,216,77,.85) 0 54px, transparent 55px),
+        linear-gradient(180deg, #9becf6 0%, #dffbff 44%, #56d4e9 44.2%, #b7f1f8 100%);
+    }
+
+    .topbar {
+      padding: 9px 12px;
+      border: 3px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.94);
+      box-shadow: 4px 5px 0 rgba(18,52,80,.14);
+    }
+
+    .brand-mark {
+      color: var(--ink);
+      background: var(--gold);
+      border: 3px solid var(--line);
+      box-shadow: 3px 3px 0 rgba(18,52,80,.18);
+    }
+    .brand-copy span, .subtle { color: var(--muted); }
+
+    .icon-btn {
+      color: var(--ink);
+      background: #dffaff;
+      border: 3px solid var(--line);
+      box-shadow: 2px 3px 0 rgba(18,52,80,.18);
+    }
+
+    .hero {
+      min-height: 360px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr);
+      align-items: stretch;
+      background: white;
+      border: 4px solid var(--line);
+      border-radius: 27px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero img {
+      position: relative;
+      inset: auto;
+      z-index: auto;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      object-position: center;
+      border-right: 4px solid var(--line);
+    }
+    .hero::after { display: none; }
+    .hero-copy {
+      max-width: none;
+      padding: 25px 23px;
+      align-self: center;
+      background: #fff;
+    }
+    .eyebrow { color: #e9492b; }
+    h1 { color: var(--ink); text-shadow: none; }
+    h1 span { color: var(--coral); }
+    .hero-copy > p { color: #294b64; }
+
+    .pill {
+      color: var(--ink);
+      background: #f7fdff;
+      border: 2px solid var(--line);
+      backdrop-filter: none;
+    }
+
+    .panel {
+      color: var(--ink);
+      background: var(--panel);
+      border: 3px solid var(--line);
+      box-shadow: var(--shadow);
+      backdrop-filter: none;
+    }
+
+    .text-input {
+      color: var(--ink);
+      background: #f5fdff;
+      border: 3px solid var(--line);
+      box-shadow: inset 0 -3px 0 rgba(33,200,231,.12);
+    }
+    .text-input::placeholder { color: #7792a5; }
+
+    .mode-card label {
+      color: var(--ink);
+      background: #f8fdff;
+      border: 3px solid var(--line);
+      box-shadow: 3px 4px 0 rgba(18,52,80,.12);
+    }
+    .mode-card label span { color: var(--muted); }
+    .mode-card input:checked + label {
+      color: var(--ink);
+      border-color: var(--line);
+      background: #fff3a6;
+      box-shadow: 4px 5px 0 rgba(255,104,71,.24);
+    }
+
+    .primary, .secondary, .danger, .ghost {
+      color: var(--ink);
+      border: 3px solid var(--line);
+      box-shadow: 3px 4px 0 rgba(18,52,80,.2);
+    }
+    .primary { background: #56e0ee; }
+    .secondary { background: var(--gold); }
+    .ghost { background: #fff; }
+    .danger { color: #7d2014; background: #ffd5ca; border-color: var(--line); }
+    .primary:active, .secondary:active, .danger:active, .ghost:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 rgba(18,52,80,.2); }
+
+    .brief-icon {
+      color: var(--ink);
+      background: #fff0a4;
+      border: 2px solid var(--line);
+    }
+    .brief-item span, .safety-note { color: var(--muted); }
+    .safety-note { border-top: 2px dashed #7aa6b8; }
+
+    .score-badge {
+      color: var(--ink);
+      background: var(--gold);
+      border: 3px solid var(--line);
+      box-shadow: 3px 4px 0 rgba(18,52,80,.16);
+    }
+    .score-badge strong { color: var(--ink); }
+    .score-badge span { color: #4e5360; }
+
+    .progress-track { height: 12px; background: #fff; border: 2px solid var(--line); }
+    .progress-fill { background: linear-gradient(90deg, #20c7e6, #ffd84d, #ff6847); }
+
+    .passport-card {
+      background: #fff;
+      border: 3px solid var(--line);
+      box-shadow: 4px 5px 0 rgba(18,52,80,.13);
+    }
+    .passport-copy span { color: var(--muted); }
+    .passport-mark { background: #e8f7fa; border: 2px dashed #7898aa; }
+    .passport-mark.collected { border: 2px solid var(--line); box-shadow: 2px 3px 0 rgba(18,52,80,.18); }
+
+    .venue-card { overflow: hidden; }
+    .venue-banner {
+      color: var(--ink);
+      background: linear-gradient(135deg, color-mix(in srgb, var(--venue) 42%, white), #effcff 76%);
+      border-bottom: 3px solid var(--line);
+    }
+    .venue-banner::before { opacity: .35; }
+    .venue-icon {
+      width: 72px;
+      height: 72px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: #fff;
+      border: 3px solid var(--line);
+      box-shadow: 4px 4px 0 rgba(18,52,80,.14);
+    }
+    .deck-tag { color: #fff; background: var(--line); border: 2px solid var(--line); }
+    .venue-banner p, .mission-text { color: #294b64; }
+    .mission-kicker { color: #d84328; }
+
+    .mission-note {
+      color: var(--ink);
+      background: #dff9ff;
+      border: 2px solid #4aa9bc;
+    }
+    .timer {
+      background: #fff8bf;
+      border: 3px solid var(--line);
+    }
+    .timer-copy span { color: var(--muted); }
+    .timer-display { color: #db4328; }
+
+    .order-card {
+      color: var(--ink);
+      background: #ffef83;
+      border: 3px dashed var(--line);
+    }
+    .order-card small { color: #cf3d25; }
+    .order-card p { color: var(--ink); }
+    .order-card button { color: var(--ink); background: #fff; border: 2px solid var(--line); }
+
+    .success-box { background: #e5ffec; border: 3px solid #309760; }
+    .success-box h3 { color: #176c42; }
+    .success-box p { color: #285a43; }
+
+    .route-panel summary { color: var(--ink); }
+    .route-panel summary::after { color: #dc452c; }
+    .route-stop { border-top: 2px dashed #b4d4df; }
+    .route-status { color: var(--ink); background: #dff9ff; border: 2px solid var(--line); }
+    .route-stop.current .route-status { color: var(--ink); background: var(--gold); }
+    .route-stop.done .route-status { color: var(--ink); background: var(--green); }
+    .route-deck { color: var(--muted); }
+
+    .finish-hero {
+      color: var(--ink);
+      background: radial-gradient(circle at 82% 9%, #ffe56c 0 70px, transparent 72px), linear-gradient(160deg, #83e6f3, #e6fbff);
+      border-bottom: 3px solid var(--line);
+    }
+    .rank { color: #d84328; }
+    .big-score { color: var(--ink); background: #fff; border: 4px solid var(--line); box-shadow: 6px 7px 0 rgba(18,52,80,.17); }
+    .big-score span { color: var(--muted); }
+    .result-row { background: #effbfe; border: 2px solid #b8dce5; }
+    .result-row span:last-child { color: var(--muted); }
+
+    dialog { color: var(--ink); background: #fff; border: 4px solid var(--line); }
+    dialog::backdrop { background: rgba(18,52,80,.58); }
+    .dialog-body ol, .dialog-body ul { color: #294b64; }
+    .toast { color: var(--ink); background: var(--gold); border: 3px solid var(--line); box-shadow: 5px 6px 0 rgba(18,52,80,.2); }
+
+    @media (max-width: 720px) {
+      .hero { min-height: 0; grid-template-columns: 1fr; }
+      .hero img { width: 100%; height: auto; min-height: 0; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 4px solid var(--line); object-position: center; }
+      .hero-copy { padding: 21px; }
+    }
+
+    @media (max-width: 470px) {
+      .hero { min-height: 0; }
+      .hero img { object-position: center; }
+      .hero-copy { padding: 18px; }
+      .venue-icon { width: 60px; height: 60px; }
+    }
   </style>
 </head>
 <body>
@@ -567,9 +810,26 @@
   <div id="live" class="sr-only" aria-live="polite"></div>
 
   <script>
-    const STORAGE_KEY = "voyager-after-dark-v1";
+    const STORAGE_KEY = "voyager-after-dark-v2";
 
     const VENUES = [
+      {
+        id: "atrium",
+        name: "Atrium Bar",
+        deck: "Deck 5",
+        icon: "🛟",
+        mark: "Crew Muster Stamp",
+        markIcon: "🛟",
+        colour: "#ff6b4a",
+        intro: "The official unofficial muster point. Gather the crew, invent a convincing voyage plan and try to look seaworthy.",
+        note: "This is the relaxed opening stop. Any drink counts, including water, soft drinks and mocktails.",
+        points: 10,
+        missions: [
+          { title: "The highly professional muster", text: "Give every crew member a ridiculous shipboard job title. The captain must explain why each person was hired despite overwhelming evidence against it.", seconds: 45, bonus: "Earn the bonus if somebody becomes Head of Emergency Biscuits." },
+          { title: "Pose for the missing-passenger poster", text: "Choose one sailor to strike a dramatic lost-at-sea pose while the crew invents a completely useless description of them.", seconds: 30, bonus: "Earn the bonus if the description mentions suspicious footwear." },
+          { title: "The pre-sailing safety lie", text: "Each sailor states one genuine safety rule and one completely invented rule. The captain must identify the nonsense before the ship allegedly leaves.", seconds: 45, bonus: "Earn the bonus if somebody convincingly bans unlicensed deckchair racing." }
+        ]
+      },
       {
         id: "flutes",
         name: "Flutes",
@@ -582,9 +842,9 @@
         note: "Champagne can cost extra. Prosecco, soft drinks or water work perfectly for every mission.",
         points: 12,
         missions: [
-          { title: "Christen the voyage", text: "Choose the ship’s sponsor. They must christen tonight’s mission with an exactly seven-word toast while the crew counts each word.", seconds: 30, bonus: "Earn the bonus if the toast includes both ‘Voyager’ and ‘sea’." },
-          { title: "The captain’s announcement", text: "Deliver a ten-second welcome announcement for tonight’s completely unofficial sailing. Every crew member needs a job title.", seconds: 30, bonus: "Earn the bonus if someone is appointed Chief Iceberg Lookout." },
-          { title: "Name the vessel", text: "Your crew has acquired a suspiciously small luxury liner. Agree on its name, home port and one ridiculous onboard rule.", seconds: 45, bonus: "Earn the bonus if the vessel’s name uses alliteration." }
+          { title: "Christen this nonsense", text: "Deliver a seven-word launch speech for tonight’s mission. It must sound confident even though nobody knows where the bridge is.", seconds: 30, bonus: "Earn the bonus if the final words are ‘what could possibly go wrong?’" },
+          { title: "The captain’s announcement", text: "Welcome everyone aboard in your poshest captain voice, then calmly explain an imaginary emergency involving the buffet and a missing flip-flop.", seconds: 30, bonus: "Earn the bonus if somebody is appointed Chief Yorkshire Pudding Officer." },
+          { title: "Name the dodgy vessel", text: "Your crew has bought a cruise ship for £12.50. Agree on its name, home port and one deeply questionable onboard rule.", seconds: 45, bonus: "Earn the bonus if the ship’s name would worry the coastguard." }
         ]
       },
       {
@@ -599,9 +859,9 @@
         note: "Keep pathways clear and use only your own paper or phone notes for drawing challenges.",
         points: 14,
         missions: [
-          { title: "Design the crew flag", text: "Sketch a simple signal flag for your crew using only three shapes. The others must explain what message it sends.", seconds: 40, bonus: "Earn the bonus if everyone agrees what the flag means." },
-          { title: "Figurehead formation", text: "Create a group pose for the imaginary figurehead on the bow of your vessel and hold it until the timer ends.", seconds: 20, bonus: "Earn the bonus if nobody laughs or breaks character." },
-          { title: "Draw the route", text: "Without lifting finger or pen, draw a map from tonight’s first venue to the final dancefloor. Accuracy is actively discouraged.", seconds: 30, bonus: "Earn the bonus if the map includes a sea monster." }
+          { title: "Design the panic flag", text: "Draw your crew’s emergency signal flag using only a triangle, a circle and something that looks suspiciously like a sausage roll.", seconds: 40, bonus: "Earn the bonus if the others correctly guess the emergency." },
+          { title: "Figurehead of shame", text: "Create a heroic figurehead pose for the front of your £12.50 cruise ship. Hold it while everyone else makes dramatic wave noises.", seconds: 20, bonus: "Earn the bonus if nobody laughs or falls over." },
+          { title: "Present the priceless masterpiece", text: "Choose something ordinary in the room and present it as priceless modern art. Give it a dramatic title and explain what it reveals about life at sea.", seconds: 40, bonus: "Earn the bonus if you convince the crew it should be insured for £4.2 million." }
         ]
       },
       {
@@ -616,9 +876,9 @@
         note: "Live music, quizzes and games can be running here, so keep your mission quiet if a show has started.",
         points: 15,
         missions: [
-          { title: "Port, starboard, stern", text: "The captain calls three directions in any order. The crew must point correctly: port is left, starboard is right and stern is behind.", seconds: 25, bonus: "Earn the bonus if everyone gets all three right first time." },
-          { title: "Nautical alphabet", text: "Starting with A, take turns naming something connected with ships or the sea. Reach J without a repeat or a long pause.", seconds: 50, bonus: "Earn the bonus if nobody uses ‘boat’." },
-          { title: "Build a sea shanty", text: "The captain sings one made-up line about Voyager. Each player adds a rhyming line until the crew has a chorus.", seconds: 45, bonus: "Earn the bonus if the whole crew performs the final chorus together." }
+          { title: "Port, starboard… panic", text: "The captain calls port, starboard or stern. Point correctly—or confidently point anywhere and blame the ship for turning.", seconds: 25, bonus: "Earn the bonus if everyone gets all three right without copying the loudest person." },
+          { title: "The forbidden nautical alphabet", text: "Take turns naming sea-related things from A to J. You may not use boat, fish, water or ‘erm…’.", seconds: 50, bonus: "Earn the bonus if somebody produces a convincing word for J." },
+          { title: "The buffet sea shanty", text: "Build a sea shanty about an heroic voyage to the buffet. Each sailor adds one rhyming line about food, deckchairs or a lost flip-flop.", seconds: 50, bonus: "Earn the bonus if the chorus is annoyingly catchy." }
         ]
       },
       {
@@ -633,9 +893,9 @@
         note: "Premium spirits may cost extra. The mission never depends on what anyone orders.",
         points: 12,
         missions: [
-          { title: "Chart the house special", text: "Invent a cocktail or mocktail named after a sea, island or famous voyage. The crew votes for the one worthy of the captain’s table.", seconds: 45, bonus: "Earn the bonus if the winning name uses alliteration." },
-          { title: "Message in a bottle", text: "Compose a six-word message for a bottle found drifting at sea. Agree on every word before time runs out.", seconds: 35, bonus: "Earn the bonus if it ends with a mystery." },
-          { title: "Latitude zero", text: "Imagine Voyager has crossed the equator. Each player gives one item the captain absolutely must add to the official log.", seconds: 35, bonus: "Earn the bonus if every log entry is different." }
+          { title: "Invent an alarming cocktail", text: "Create a cocktail or mocktail named after tonight’s most embarrassing moment. It needs a name, three imaginary ingredients and a warning label.", seconds: 45, bonus: "Earn the bonus if nobody would legally be allowed to sell it." },
+          { title: "Luxury water critic", text: "Review an ordinary glass of water like a ridiculously expensive vintage: aroma, mouthfeel, aftertaste and emotional damage.", seconds: 30, bonus: "Earn the bonus for using the phrase ‘subtle notes of wet’." },
+          { title: "Message in a bottle", text: "Compose a six-word distress message from the crew. It must request snacks without using the words food, hungry or buffet.", seconds: 35, bonus: "Earn the bonus if it sounds genuinely urgent." }
         ]
       },
       {
@@ -650,9 +910,9 @@
         note: "Adults-only. Some immersive evenings are chargeable and pre-bookable. This mission works outside if you are not going in.",
         points: 18,
         missions: [
-          { title: "Inspect the ship’s papers", text: "Invent your vessel’s name, cargo and suspicious destination. The captain must present the story without hesitating.", seconds: 35, bonus: "Earn the bonus if the cargo is both valuable and completely useless." },
-          { title: "The stowaway’s story", text: "Explain how the crew secretly boarded Voyager. Each player adds exactly one sentence to the tale.", seconds: 40, bonus: "Earn the bonus if the final sentence changes who the stowaway is." },
-          { title: "Signal in Morse", text: "Tap SOS together: three short, three long, three short. Keep it quiet and use fingertips only.", seconds: 20, bonus: "Earn the bonus if the whole crew stays in perfect time." }
+          { title: "Inspect the deeply suspicious cargo", text: "Present the ship’s papers and explain why you are transporting 800 rubber ducks, one deckchair and an emotional-support turnip.", seconds: 35, bonus: "Earn the bonus if the captain keeps a straight face." },
+          { title: "The hopeless stowaway", text: "Explain how the crew secretly boarded Voyager. Each player adds one sentence, but the final sentence must reveal you had tickets all along.", seconds: 40, bonus: "Earn the bonus if the story also involves the buffet." },
+          { title: "Send Our Snacks", text: "Tap SOS together—three short, three long, three short—while insisting it means Send Our Snacks. Fingertips only; keep it quiet.", seconds: 20, bonus: "Earn the bonus if the crew stays perfectly in time." }
         ]
       },
       {
@@ -667,9 +927,9 @@
         note: "Outdoor areas can close in poor weather. If so, complete the mission from the nearest open indoor space.",
         points: 15,
         missions: [
-          { title: "Lookout’s report", text: "Study the view for ten seconds, then turn away. As a crew, name five things you noticed without checking again.", seconds: 35, bonus: "Earn the bonus if one detail was on the horizon." },
-          { title: "Captain’s weather report", text: "Deliver tomorrow’s wildly dramatic marine forecast using the words ‘swell’, ‘visibility’ and ‘deckchair’.", seconds: 25, bonus: "Earn the bonus if the report includes a warning for sea monsters." },
-          { title: "Around the world", text: "Take turns naming ports or countries you would sail to. No repeats and no pause longer than three seconds.", seconds: 50, bonus: "Earn the bonus if the crew reaches twelve destinations." }
+          { title: "Lookout with useless binoculars", text: "Make binoculars with your hands and announce five things you can see. One of them must be completely impossible.", seconds: 35, bonus: "Earn the bonus if the crew cannot identify the made-up sighting." },
+          { title: "The deckchair weather crisis", text: "Deliver tomorrow’s wildly dramatic marine forecast using ‘swell’, ‘visibility’ and ‘unsecured deckchair’.", seconds: 25, bonus: "Earn the bonus for issuing a severe sausage-roll warning." },
+          { title: "Souvenir world tour", text: "Take turns naming ports you would visit and the worst souvenir you could bring home from each one.", seconds: 50, bonus: "Earn the bonus if the crew reaches ten ports without buying another fridge magnet." }
         ]
       },
       {
@@ -684,24 +944,26 @@
         note: "The casino is never part of the game. No bets, purchases or alcohol are required.",
         points: 20,
         missions: [
-          { title: "Deck-party drill", text: "The captain calls port, starboard, bow or stern. The crew must dance in that direction until the next command.", seconds: 30, bonus: "Earn the bonus if nobody follows the wrong order." },
-          { title: "Invisible silent disco", text: "Choose an imaginary sea shanty remix. Everyone dances to it for twenty seconds with no music and no explanation.", seconds: 20, bonus: "Earn the bonus if the crew stops on exactly the same beat." },
-          { title: "Bring her into port", text: "In slow motion, act out Voyager’s triumphant arrival: captain at the wheel, lookout, harbourmaster and cheering passengers.", seconds: 25, bonus: "Earn the bonus if everyone freezes for the final ship’s-horn blast." }
+          { title: "Dance on a tilting ship", text: "Dance normally while the captain slowly calls ‘tilting left’, ‘tilting right’ and ‘somebody dropped a tray’.", seconds: 30, bonus: "Earn the bonus if everybody remains technically upright." },
+          { title: "Invisible shanty disco", text: "Dance to an imaginary sea-shanty remix. One sailor must perform the traditional ancient dance known as The Seasick Robot.", seconds: 25, bonus: "Earn the bonus if the crew stops on exactly the same beat." },
+          { title: "Reverse her into port", text: "Act out Voyager parking in slow motion: captain steering, lookout panicking, harbourmaster waving and one person making reversing beeps.", seconds: 30, bonus: "Earn the bonus if the final horn noise is embarrassingly realistic." }
         ]
       }
     ];
 
     const ORDERS = [
-      "Fresh-water drill: everybody has a glass of water before the next checkpoint.",
-      "Appoint a flag bearer. They lead the crew to the next deck with an imaginary signal flag.",
-      "All hands on deck: the captain gives one order and the crew must answer ‘Aye aye!’ together.",
-      "Shipshape inspection: everyone straightens one item of clothing before leaving this venue.",
-      "Captain’s log: each sailor names their favourite moment of the cruise so far.",
-      "Steady as she goes: use the lift for the next deck if anyone feels even slightly unsteady.",
-      "Dry-ship wildcard: anyone choosing water, a soft drink or mocktail earns the crew a salute.",
-      "Logbook portrait: create a five-second crew photo pose. Taking an actual photo is optional.",
-      "Radio silence: phones stay away until the next checkpoint, except for this mission screen.",
-      "Lookout duty: nominate one sailor to spot the next nautical sign, artwork or ship detail."
+      "Fresh-water drill: everybody has water before the next checkpoint. The captain may add a completely unnecessary toast.",
+      "Appoint a flag bearer. They must lead the crew using an imaginary flag and the confidence of somebody who is definitely lost.",
+      "All hands on deck: the captain gives one pointless order and the crew answers ‘Aye aye!’ with unreasonable enthusiasm.",
+      "Shipshape inspection: everybody straightens one item of clothing and pretends this has made a difference.",
+      "Captain’s log: each sailor reports their best cruise moment and their most disappointing chip.",
+      "Steady as she goes: use the lift if anybody feels unsteady—or simply cannot be bothered with stairs.",
+      "Dry-ship wildcard: anybody choosing water, a soft drink or mocktail receives a full naval salute.",
+      "Brochure photo: everybody poses like this cruise has changed their life while one sailor photobombs as a dolphin.",
+      "Radio silence: phones away until the next checkpoint, except for this app and urgent photographs of pudding.",
+      "Lost flip-flop alert: nominate a lookout to report the next suspicious sandal sighting.",
+      "Buffet intelligence: each sailor predicts the first thing the captain would steal from tonight’s buffet.",
+      "Deckchair drill: freeze in the position of somebody discovering their reserved sunbed has vanished."
     ];
 
     const QUICK_ROUTE = ["arts-house", "squid", "summer-house", "electric"];
@@ -783,14 +1045,14 @@
       app.innerHTML = `
         ${header(false)}
         <section class="hero">
-          <img src="./assets/night-deck.webp" alt="Illustrated cruise ship deck beneath a starry night sky">
+          <img src="./assets/bright-voyager.webp" alt="Bright cartoon illustration of Marella Voyager sailing past dolphins and tropical islands">
           <div class="hero-copy">
             <p class="eyebrow">Your mission awaits</p>
             <h1>Voyager<br><span>After Dark</span></h1>
-            <p>Seven venues. Seven sea marks. One deck-by-deck voyage that works even when the ship’s Wi-Fi does not.</p>
+            <p>Eight bars. Eight daft sea trials. One crew with absolutely no business being in charge of a ship.</p>
             <div class="status-row">
               <span class="pill"><span class="dot ${navigator.onLine ? '' : 'offline'}"></span><span id="connectionText">${offlineReady ? 'Ready offline' : (navigator.onLine ? 'Preparing offline mode' : 'You are offline')}</span></span>
-              <span class="pill">No drinking required</span>
+              <span class="pill">No drinking—or dignity—required</span>
             </div>
           </div>
         </section>
@@ -798,10 +1060,10 @@
         <div class="start-grid">
           <section class="panel setup" aria-labelledby="setup-title">
             <h2 id="setup-title">Assemble your crew</h2>
-            <p class="subtle">Names rotate the role of mission captain.</p>
+            <p class="subtle">Names rotate the role of captain. Previous boating experience is strongly discouraged.</p>
             <div class="field">
               <label for="crewName">Crew name</label>
-              <input class="text-input" id="crewName" maxlength="40" placeholder="e.g. The Atlantic Rascals" autocomplete="off">
+              <input class="text-input" id="crewName" maxlength="40" placeholder="e.g. The Unsinkable Numpties" autocomplete="off">
             </div>
             <div class="field">
               <label for="players">Players <span class="subtle">(separate with commas)</span></label>
@@ -812,7 +1074,7 @@
               <div class="mode-grid" role="radiogroup" aria-label="Mission length">
                 <div class="mode-card">
                   <input id="mode-full" type="radio" name="mode" value="full" checked>
-                  <label for="mode-full"><strong>The full voyage</strong><span>7 venues · 7 sea marks · includes the optional Exchange stop.</span></label>
+                  <label for="mode-full"><strong>The full voyage</strong><span>8 evening venues · 8 sea marks · includes the optional Exchange stop.</span></label>
                 </div>
                 <div class="mode-card">
                   <input id="mode-quick" type="radio" name="mode" value="quick">
@@ -820,13 +1082,13 @@
                 </div>
               </div>
             </div>
-            <button class="primary wide" data-action="start-game">Cast off</button>
+            <button class="primary wide" data-action="start-game">Cast off, you absolute pirates</button>
           </section>
 
           <aside class="panel briefing" aria-label="Mission briefing">
             <div class="brief-item"><div class="brief-icon">🧭</div><div><strong>Real Voyager route</strong><span>Every checkpoint is matched to the correct deck.</span></div></div>
             <div class="brief-item"><div class="brief-icon">📜</div><div><strong>Ship’s passport</strong><span>Complete a challenge to collect each venue’s sea mark.</span></div></div>
-            <div class="brief-item"><div class="brief-icon">📴</div><div><strong>Built for offline</strong><span>Add it to your Home Screen before sailing.</span></div></div>
+            <div class="brief-item"><div class="brief-icon">😂</div><div><strong>Gloriously daft</strong><span>Every stop includes a fresh opportunity to look ridiculous.</span></div></div>
             <div class="brief-item"><div class="brief-icon">🥤</div><div><strong>Any drink counts</strong><span>Water, soft drinks and mocktails are always valid.</span></div></div>
             <p class="safety-note">Unofficial, fan-made game. Keep it fun and follow crew instructions. Venue times and onboard entertainment may change during your sailing.</p>
           </aside>
@@ -884,19 +1146,19 @@
           </div>
           <div class="mission">
             ${isDone ? successHtml(venue, status) : `
-              <p class="mission-kicker">Sea trial · ${venue.points} points</p>
+              <p class="mission-kicker">Tonight’s ridiculous sea trial · ${venue.points} points</p>
               <h3>${mission.title}</h3>
               <p class="mission-text">${mission.text}</p>
               <div class="mission-note"><span aria-hidden="true">ⓘ</span><span>${venue.note}</span></div>
               <div class="timer">
-                <div class="timer-copy"><strong>Challenge timer</strong><span>Stops automatically at zero</span></div>
+                <div class="timer-copy"><strong>Panic timer</strong><span>Stops at zero, unlike the captain</span></div>
                 <span class="timer-display" id="timerDisplay">${formatTimer(mission.seconds)}</span>
                 <button class="ghost" data-action="start-timer" data-seconds="${mission.seconds}">Start</button>
               </div>
-              <div class="order-card"><small>Captain’s order</small><p>${orderFor(venue)}</p><button data-action="new-order" aria-label="Draw another captain's order">↻</button></div>
+              <div class="order-card"><small>The captain says…</small><p>${orderFor(venue)}</p><button data-action="new-order" aria-label="Draw another captain's order">↻</button></div>
               <div class="action-stack">
-                <button class="primary" data-action="complete-mission">Mission complete · +${venue.points}</button>
-                <div class="action-row"><button class="ghost" data-action="swap-mission">Swap challenge</button><button class="ghost" data-action="skip-stop">Skip venue</button></div>
+                <button class="primary" data-action="complete-mission">We somehow did it · +${venue.points}</button>
+                <div class="action-row"><button class="ghost" data-action="swap-mission">Give us another</button><button class="ghost" data-action="skip-stop">Abandon this stop</button></div>
               </div>`}
           </div>
         </article>
@@ -914,16 +1176,16 @@
       if (status === "skipped") {
         return `<div class="success-box"><p class="mission-kicker">Port bypassed</p><h3>No problem—voyage intact.</h3><p>You can still finish the route. Opening times, queues and energy levels outrank the game.</p><button class="primary wide" data-action="next-stop">${last ? "Open the captain’s log" : "Sail to the next stop"}</button></div>`;
       }
-      return `<div class="success-box"><p class="mission-kicker">Sea mark collected</p><h3>${venue.markIcon} ${venue.mark}</h3><p>The mark is now stamped into your ship’s passport.</p><p><strong>Bonus trial:</strong> ${mission.bonus}</p>${bonusDone ? '<p>Bonus banked · +5 points</p>' : '<button class="secondary wide" data-action="claim-bonus">Claim bonus · +5</button>'}<button class="primary wide" data-action="next-stop">${last ? "Open the captain’s log" : "Sail to the next stop"}</button></div>`;
+      return `<div class="success-box"><p class="mission-kicker">Sea mark collected</p><h3>${venue.markIcon} ${venue.mark}</h3><p>That was alarmingly competent. The mark is stamped into your ship’s passport.</p><p><strong>Cheeky bonus:</strong> ${mission.bonus}</p>${bonusDone ? '<p>Cheeky bonus banked · +5 points</p>' : '<button class="secondary wide" data-action="claim-bonus">Claim the cheeky bonus · +5</button>'}<button class="primary wide" data-action="next-stop">${last ? "Open the captain’s log" : "Sail to the next stop"}</button></div>`;
     }
 
     function rankFor(score) {
       const maximum = state.route.reduce((total, id) => total + venueById(id).points + 5, 0) || 1;
       const ratio = score / maximum;
-      if (ratio >= .9) return ["Admiral of After Dark", "🏆"];
-      if (ratio >= .7) return ["Voyager Night Legend", "🪩"];
-      if (ratio >= .45) return ["First Mate of Mischief", "⚓"];
-      return ["Honourable Deckhand", "🧭"];
+      if (ratio >= .9) return ["Admiral of Absolute Nonsense", "🏆"];
+      if (ratio >= .7) return ["Voyager Night Menaces", "🪩"];
+      if (ratio >= .45) return ["First Mate of Mild Chaos", "⚓"];
+      return ["Deckhand Who Gave It a Go", "🧭"];
     }
 
     function renderFinish() {
@@ -943,7 +1205,7 @@
           </div>
           <div class="finish-body">
             <h2>Captain’s log</h2>
-            <p class="subtle">The official record of a highly unofficial voyage.</p>
+            <p class="subtle">The official record of a highly unofficial voyage that should probably never be mentioned again.</p>
             <div class="result-list">
               <div class="result-row"><span>Sea marks collected</span><span>${completed} of ${state.route.length}</span></div>
               <div class="result-row"><span>Venues skipped</span><span>${skipped}</span></div>

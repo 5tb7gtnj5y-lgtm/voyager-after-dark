@@ -1,10 +1,10 @@
-const CACHE = "voyager-after-dark-v2";
+const CACHE = "voyager-after-dark-v5";
 const CORE = [
   "./",
   "./index.html",
   "./manifest.webmanifest",
   "./assets/icon.svg",
-  "./assets/night-deck.webp"
+  "./assets/bright-voyager.webp"
 ];
 
 self.addEventListener("install", event => {
