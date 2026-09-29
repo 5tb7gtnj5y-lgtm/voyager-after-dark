@@ -404,6 +404,19 @@
     .order-card p { margin: 0; color: #f7e9e8; font-size: .88rem; }
     .order-card button { position: absolute; right: 8px; top: 9px; width: 36px; height: 36px; border: 0; border-radius: 11px; color: var(--ink); background: rgba(255,255,255,.08); cursor: pointer; }
 
+    .chaos-card {
+      position: relative;
+      margin-top: 10px;
+      padding: 14px 50px 14px 15px;
+      border: 2px dashed rgba(255,209,102,.7);
+      border-radius: 17px;
+      color: #fff5c7;
+      background: linear-gradient(135deg, rgba(255,209,102,.14), rgba(255,107,74,.12));
+    }
+    .chaos-card small { display: block; margin-bottom: 4px; color: var(--gold); font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
+    .chaos-card p { margin: 0; font-size: .88rem; }
+    .chaos-card button { position: absolute; right: 8px; top: 9px; width: 36px; height: 36px; border: 0; border-radius: 11px; color: var(--ink); background: var(--gold); cursor: pointer; }
+
     .action-stack { display: grid; gap: 9px; margin-top: 18px; }
     .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
     .action-stack button { width: 100%; }
@@ -714,6 +727,9 @@
     .order-card small { color: #cf3d25; }
     .order-card p { color: var(--ink); }
     .order-card button { color: var(--ink); background: #fff; border: 2px solid var(--line); }
+    .chaos-card { color: var(--ink); border-color: #db4328; background: linear-gradient(135deg, #fff2a8, #ffd4c9); }
+    .chaos-card small { color: #b62f1e; }
+    .chaos-card button { color: var(--ink); background: #fff; border: 2px solid var(--line); }
 
     .success-box { background: #e5ffec; border: 3px solid #309760; }
     .success-box h3 { color: #176c42; }
@@ -814,23 +830,6 @@
 
     const VENUES = [
       {
-        id: "atrium",
-        name: "Atrium Bar",
-        deck: "Deck 5",
-        icon: "🛟",
-        mark: "Crew Muster Stamp",
-        markIcon: "🛟",
-        colour: "#ff6b4a",
-        intro: "The official unofficial muster point. Gather the crew, invent a convincing voyage plan and try to look seaworthy.",
-        note: "This is the relaxed opening stop. Any drink counts, including water, soft drinks and mocktails.",
-        points: 10,
-        missions: [
-          { title: "The highly professional muster", text: "Give every crew member a ridiculous shipboard job title. The captain must explain why each person was hired despite overwhelming evidence against it.", seconds: 45, bonus: "Earn the bonus if somebody becomes Head of Emergency Biscuits." },
-          { title: "Pose for the missing-passenger poster", text: "Choose one sailor to strike a dramatic lost-at-sea pose while the crew invents a completely useless description of them.", seconds: 30, bonus: "Earn the bonus if the description mentions suspicious footwear." },
-          { title: "The pre-sailing safety lie", text: "Each sailor states one genuine safety rule and one completely invented rule. The captain must identify the nonsense before the ship allegedly leaves.", seconds: 45, bonus: "Earn the bonus if somebody convincingly bans unlicensed deckchair racing." }
-        ]
-      },
-      {
         id: "flutes",
         name: "Flutes",
         deck: "Decks 5 & 6",
@@ -844,7 +843,12 @@
         missions: [
           { title: "Christen this nonsense", text: "Deliver a seven-word launch speech for tonight’s mission. It must sound confident even though nobody knows where the bridge is.", seconds: 30, bonus: "Earn the bonus if the final words are ‘what could possibly go wrong?’" },
           { title: "The captain’s announcement", text: "Welcome everyone aboard in your poshest captain voice, then calmly explain an imaginary emergency involving the buffet and a missing flip-flop.", seconds: 30, bonus: "Earn the bonus if somebody is appointed Chief Yorkshire Pudding Officer." },
-          { title: "Name the dodgy vessel", text: "Your crew has bought a cruise ship for £12.50. Agree on its name, home port and one deeply questionable onboard rule.", seconds: 45, bonus: "Earn the bonus if the ship’s name would worry the coastguard." }
+          { title: "Name the dodgy vessel", text: "Your crew has bought a cruise ship for £12.50. Agree on its name, home port and one deeply questionable onboard rule.", seconds: 45, bonus: "Earn the bonus if the ship’s name would worry the coastguard." },
+          { title: "Toast of terrible decisions", text: "The captain gives a grand toast to the crew’s finest bad decision of the holiday. Everyone must raise whatever drink they have—even water counts.", seconds: 30, bonus: "Earn the bonus if the decision is described as ‘strategically unfortunate’." },
+          { title: "Luxury fizz advert", text: "Sell an imaginary bottle of bargain bubbles as though it costs £10,000. Include its vintage, tasting notes and one absurd celebrity owner.", seconds: 40, bonus: "Earn the bonus for mentioning notes of chip shop vinegar." },
+          { title: "The seven-word soap opera", text: "Create a dramatic seven-word story involving a captain, a forbidden romance and a bread roll. Perform it with maximum emotion.", seconds: 35, bonus: "Earn the bonus if somebody gasps at the bread roll reveal." },
+          { title: "Ship’s bell sound-off", text: "Each sailor makes their best ship’s bell noise. Vote for the one most likely to confuse an actual ship.", seconds: 30, bonus: "Earn the bonus if the winner gives a tiny bow." },
+          { title: "Launch the lifeboat of love", text: "Name an imaginary lifeboat after the crew and explain its three completely unnecessary luxury features.", seconds: 35, bonus: "Earn the bonus if one feature is a gravy fountain." }
         ]
       },
       {
@@ -861,7 +865,12 @@
         missions: [
           { title: "Design the panic flag", text: "Draw your crew’s emergency signal flag using only a triangle, a circle and something that looks suspiciously like a sausage roll.", seconds: 40, bonus: "Earn the bonus if the others correctly guess the emergency." },
           { title: "Figurehead of shame", text: "Create a heroic figurehead pose for the front of your £12.50 cruise ship. Hold it while everyone else makes dramatic wave noises.", seconds: 20, bonus: "Earn the bonus if nobody laughs or falls over." },
-          { title: "Present the priceless masterpiece", text: "Choose something ordinary in the room and present it as priceless modern art. Give it a dramatic title and explain what it reveals about life at sea.", seconds: 40, bonus: "Earn the bonus if you convince the crew it should be insured for £4.2 million." }
+          { title: "Present the priceless masterpiece", text: "Choose something ordinary in the room and present it as priceless modern art. Give it a dramatic title and explain what it reveals about life at sea.", seconds: 40, bonus: "Earn the bonus if you convince the crew it should be insured for £4.2 million." },
+          { title: "Blindfolded by bureaucracy", text: "With eyes open but looking only at your phone, draw a cruise ship without lifting your finger. The crew judges seaworthiness.", seconds: 35, bonus: "Earn the bonus if it has the correct number of funnels—or seventeen." },
+          { title: "Napkin fashion week", text: "Design an imaginary captain’s uniform using only items you can see. Describe it like a fashion commentator; do not move or wear venue property.", seconds: 40, bonus: "Earn the bonus if it includes formal flip-flops." },
+          { title: "Portrait of an exhausted captain", text: "One sailor poses as a captain after 47 days at sea. Everyone else gives the portrait a pompous gallery title.", seconds: 30, bonus: "Earn the bonus if the title contains ‘biscuits’." },
+          { title: "Sculpture without a sculpture", text: "As a group, freeze into the shape of a ship for five seconds. One person must be the funnel and another the worried propeller.", seconds: 25, bonus: "Earn the bonus if a stranger could almost guess what you are." },
+          { title: "Draw the captain from memory", text: "Draw the officer of the watch from memory in ten strokes or fewer, then hold the masterpiece beside them for judging.", seconds: 35, bonus: "Earn the bonus if they recognise any part of themselves." }
         ]
       },
       {
@@ -878,7 +887,12 @@
         missions: [
           { title: "Port, starboard… panic", text: "The captain calls port, starboard or stern. Point correctly—or confidently point anywhere and blame the ship for turning.", seconds: 25, bonus: "Earn the bonus if everyone gets all three right without copying the loudest person." },
           { title: "The forbidden nautical alphabet", text: "Take turns naming sea-related things from A to J. You may not use boat, fish, water or ‘erm…’.", seconds: 50, bonus: "Earn the bonus if somebody produces a convincing word for J." },
-          { title: "The buffet sea shanty", text: "Build a sea shanty about an heroic voyage to the buffet. Each sailor adds one rhyming line about food, deckchairs or a lost flip-flop.", seconds: 50, bonus: "Earn the bonus if the chorus is annoyingly catchy." }
+          { title: "The buffet sea shanty", text: "Build a sea shanty about an heroic voyage to the buffet. Each sailor adds one rhyming line about food, deckchairs or a lost flip-flop.", seconds: 50, bonus: "Earn the bonus if the chorus is annoyingly catchy." },
+          { title: "Pub quiz from another planet", text: "The captain asks three questions nobody could know, such as the moon’s favourite crisp. The crew must answer with absolute confidence.", seconds: 45, bonus: "Earn the bonus if the captain accepts an obviously wrong answer." },
+          { title: "The great anchor debate", text: "Debate whether an anchor is just a ship’s handbag. One sailor argues yes, one argues no, everyone else makes thoughtful naval noises.", seconds: 40, bonus: "Earn the bonus if ‘maritime accessories’ is used seriously." },
+          { title: "One-word shipwreck", text: "Tell a shipwreck story one word at a time around the crew. It must include a parrot, a kettle and an unnecessarily heroic sausage.", seconds: 50, bonus: "Earn the bonus if the ending almost makes sense." },
+          { title: "Silent sea creature", text: "Mime a sea creature without sound. The first correct guess becomes the next creature; keep the performance safely beside your table.", seconds: 40, bonus: "Earn the bonus if someone attempts a deeply unconvincing jellyfish." },
+          { title: "Captain’s courtroom", text: "Put a harmless object on trial for crimes against cruising. Appoint a judge, prosecutor and wildly biased witness.", seconds: 45, bonus: "Earn the bonus if the object is sentenced to the buffet." }
         ]
       },
       {
@@ -895,7 +909,12 @@
         missions: [
           { title: "Invent an alarming cocktail", text: "Create a cocktail or mocktail named after tonight’s most embarrassing moment. It needs a name, three imaginary ingredients and a warning label.", seconds: 45, bonus: "Earn the bonus if nobody would legally be allowed to sell it." },
           { title: "Luxury water critic", text: "Review an ordinary glass of water like a ridiculously expensive vintage: aroma, mouthfeel, aftertaste and emotional damage.", seconds: 30, bonus: "Earn the bonus for using the phrase ‘subtle notes of wet’." },
-          { title: "Message in a bottle", text: "Compose a six-word distress message from the crew. It must request snacks without using the words food, hungry or buffet.", seconds: 35, bonus: "Earn the bonus if it sounds genuinely urgent." }
+          { title: "Message in a bottle", text: "Compose a six-word distress message from the crew. It must request snacks without using the words food, hungry or buffet.", seconds: 35, bonus: "Earn the bonus if it sounds genuinely urgent." },
+          { title: "The menu translator", text: "Turn an ordinary drink name into ridiculous fine-dining language. Sparkling water might become ‘aerated tears of Neptune’.", seconds: 35, bonus: "Earn the bonus if nobody can tell what the original drink was." },
+          { title: "Tiny umbrella business pitch", text: "Pitch a new use for cocktail umbrellas that will allegedly revolutionise ocean travel. The crew are hostile investors.", seconds: 40, bonus: "Earn the bonus if you secure an imaginary £3 investment." },
+          { title: "International toast translator", text: "Invent a toast in a language that does not exist, then translate it. The translation must contain romance, danger and a potato.", seconds: 35, bonus: "Earn the bonus if everyone repeats it fluently." },
+          { title: "Sommelier of snacks", text: "Pair an imaginary luxury drink with the least luxurious snack you can name and explain why they are soulmates.", seconds: 35, bonus: "Earn the bonus if the pairing includes a pickled onion." },
+          { title: "The sophisticated laugh", text: "Each sailor demonstrates the laugh they would use at the captain’s expensive dinner party. Pick the one least likely to get invited back.", seconds: 30, bonus: "Earn the bonus if the winner accepts graciously." }
         ]
       },
       {
@@ -912,7 +931,12 @@
         missions: [
           { title: "Inspect the deeply suspicious cargo", text: "Present the ship’s papers and explain why you are transporting 800 rubber ducks, one deckchair and an emotional-support turnip.", seconds: 35, bonus: "Earn the bonus if the captain keeps a straight face." },
           { title: "The hopeless stowaway", text: "Explain how the crew secretly boarded Voyager. Each player adds one sentence, but the final sentence must reveal you had tickets all along.", seconds: 40, bonus: "Earn the bonus if the story also involves the buffet." },
-          { title: "Send Our Snacks", text: "Tap SOS together—three short, three long, three short—while insisting it means Send Our Snacks. Fingertips only; keep it quiet.", seconds: 20, bonus: "Earn the bonus if the crew stays perfectly in time." }
+          { title: "Send Our Snacks", text: "Tap SOS together—three short, three long, three short—while insisting it means Send Our Snacks. Fingertips only; keep it quiet.", seconds: 20, bonus: "Earn the bonus if the crew stays perfectly in time." },
+          { title: "Customs declaration of shame", text: "Declare three ridiculous items your crew is bringing into port. One must be alive, one must be haunted and one must be from the buffet.", seconds: 40, bonus: "Earn the bonus if customs somehow approves everything." },
+          { title: "Code name calamity", text: "Give every sailor a spy code name and one completely useless special skill. Brief the mission in urgent whispers.", seconds: 40, bonus: "Earn the bonus if someone becomes Agent Deckchair." },
+          { title: "Password please", text: "Invent a secret password and an even stranger response. Test every sailor like a suspicious harbour guard.", seconds: 30, bonus: "Earn the bonus if the response involves a haddock." },
+          { title: "The stolen ship mystery", text: "Solve who stole your imaginary £12.50 cruise ship. Everyone contributes one clue; the captain announces the least likely culprit.", seconds: 45, bonus: "Earn the bonus if the culprit is an innocent bread roll." },
+          { title: "Undercover cruise critic", text: "One sailor gives a secret review of the crew using spy language. Nobody may say ship, bar, holiday or drink.", seconds: 35, bonus: "Earn the bonus if the review ends ‘the eagle has found the buffet’." }
         ]
       },
       {
@@ -929,7 +953,12 @@
         missions: [
           { title: "Lookout with useless binoculars", text: "Make binoculars with your hands and announce five things you can see. One of them must be completely impossible.", seconds: 35, bonus: "Earn the bonus if the crew cannot identify the made-up sighting." },
           { title: "The deckchair weather crisis", text: "Deliver tomorrow’s wildly dramatic marine forecast using ‘swell’, ‘visibility’ and ‘unsecured deckchair’.", seconds: 25, bonus: "Earn the bonus for issuing a severe sausage-roll warning." },
-          { title: "Souvenir world tour", text: "Take turns naming ports you would visit and the worst souvenir you could bring home from each one.", seconds: 50, bonus: "Earn the bonus if the crew reaches ten ports without buying another fridge magnet." }
+          { title: "Souvenir world tour", text: "Take turns naming ports you would visit and the worst souvenir you could bring home from each one.", seconds: 50, bonus: "Earn the bonus if the crew reaches ten ports without buying another fridge magnet." },
+          { title: "Cloud shape emergency", text: "Point out or imagine a cloud and explain why its shape is a serious warning to international shipping.", seconds: 30, bonus: "Earn the bonus if it resembles a celebrity potato." },
+          { title: "David Attenborough at sea", text: "Narrate the behaviour of your own crew like a wildlife documentary, keeping it kind and completely overdramatic.", seconds: 35, bonus: "Earn the bonus if the captain is described as ‘rarely seen near stairs’." },
+          { title: "Postcard from nowhere", text: "Dictate a postcard from an imaginary island. Mention the weather, local wildlife and why visitors must never ring the bell.", seconds: 40, bonus: "Earn the bonus if the island has a deeply disappointing landmark." },
+          { title: "Horizon talent show", text: "Each sailor performs a five-second talent using no props. The lookout awards the Golden Deckchair for least expected performance.", seconds: 45, bonus: "Earn the bonus if the acceptance speech lasts under three seconds." },
+          { title: "Sunset news bulletin", text: "Report breaking news from the horizon. Include an international incident, a seagull witness and a reassuring ending.", seconds: 35, bonus: "Earn the bonus if the seagull refuses to comment." }
         ]
       },
       {
@@ -946,7 +975,12 @@
         missions: [
           { title: "Dance on a tilting ship", text: "Dance normally while the captain slowly calls ‘tilting left’, ‘tilting right’ and ‘somebody dropped a tray’.", seconds: 30, bonus: "Earn the bonus if everybody remains technically upright." },
           { title: "Invisible shanty disco", text: "Dance to an imaginary sea-shanty remix. One sailor must perform the traditional ancient dance known as The Seasick Robot.", seconds: 25, bonus: "Earn the bonus if the crew stops on exactly the same beat." },
-          { title: "Reverse her into port", text: "Act out Voyager parking in slow motion: captain steering, lookout panicking, harbourmaster waving and one person making reversing beeps.", seconds: 30, bonus: "Earn the bonus if the final horn noise is embarrassingly realistic." }
+          { title: "Reverse her into port", text: "Act out Voyager parking in slow motion: captain steering, lookout panicking, harbourmaster waving and one person making reversing beeps.", seconds: 30, bonus: "Earn the bonus if the final horn noise is embarrassingly realistic." },
+          { title: "Dancefloor lifeboat drill", text: "Invent a four-move emergency dance: point to sea, grab imaginary lifejacket, salute captain, rescue sausage roll.", seconds: 35, bonus: "Earn the bonus if the whole crew performs it in sync." },
+          { title: "The silent disco argument", text: "Two sailors mime dancing to completely different songs while the rest decide who appears to be on the stranger channel.", seconds: 30, bonus: "Earn the bonus if one song is clearly the Titanic theme." },
+          { title: "Captain’s catwalk", text: "Take three safely tiny steps like a captain arriving at the world’s most important disco. Finish with a nautical pose.", seconds: 25, bonus: "Earn the bonus if the crew supplies dramatic horn noises." },
+          { title: "Human ship’s wheel", text: "Form an imaginary ship’s wheel using only arm positions. The captain steers left, right and directly toward the late-night snacks.", seconds: 30, bonus: "Earn the bonus if nobody lets go during the snack manoeuvre." },
+          { title: "Final voyage movie trailer", text: "Perform a dramatic trailer voiceover for tonight’s adventure. Include danger, romance, a missing flip-flop and ‘coming soon to Deck 12’.", seconds: 40, bonus: "Earn the bonus if the crew provides sound effects." }
         ]
       }
     ];
@@ -963,7 +997,41 @@
       "Radio silence: phones away until the next checkpoint, except for this app and urgent photographs of pudding.",
       "Lost flip-flop alert: nominate a lookout to report the next suspicious sandal sighting.",
       "Buffet intelligence: each sailor predicts the first thing the captain would steal from tonight’s buffet.",
-      "Deckchair drill: freeze in the position of somebody discovering their reserved sunbed has vanished."
+      "Deckchair drill: freeze in the position of somebody discovering their reserved sunbed has vanished.",
+      "Royal inspection: the next sailor to say ‘drink’ must address the crew as Your Majesties.",
+      "Invisible parrot: nominate one shoulder for the ship’s parrot. Its owner must occasionally nod at its terrible advice.",
+      "Maritime manners: everybody thanks the next automatic door as though it personally saved the voyage.",
+      "Secret admiral: choose one sailor. If they touch their nose, everyone must quietly salute within five seconds.",
+      "Emergency translation: for one minute, ‘yes’ means starboard and ‘no’ means haddock.",
+      "Budget documentary: one sailor narrates the crew’s walk to the next stop like an epic wildlife migration.",
+      "Official ship noise: agree on one tiny sound effect to use whenever the app awards points.",
+      "Unlikely celebrity: decide which famous person would be the worst cruise captain and defend your choice.",
+      "Captain’s compliment: each sailor gives the person to their left an absurd but genuinely kind nautical compliment.",
+      "Mystery accent: the officer of the watch reads the next heading in a harmless accent chosen by the crew.",
+      "Tiny mutiny: the crew may overrule one captain’s decision, but only by whispering ‘mutiny’ very politely."
+    ];
+
+    const CHAOS_CARDS = [
+      "Pirate whisper: complete the challenge as though the nearest seagull is listening.",
+      "Documentary mode: one sailor narrates the action like a serious wildlife programme.",
+      "Luxury mode: describe every ordinary object as if it costs at least £50,000.",
+      "Slow-motion seas: the final five seconds must happen in dramatic slow motion.",
+      "Forbidden word: nobody may say ‘ship’ until the challenge is complete.",
+      "Oscar night: all reactions must be wildly overacted but quietly performed.",
+      "Posh captain: the officer of the watch must speak as though dining with royalty.",
+      "Budget special effects: the crew must supply all sound effects using only their voices.",
+      "Unexpected romance: work a harmless love story involving a deckchair into the challenge.",
+      "Breaking news: finish by announcing the result like a live news reporter.",
+      "The floor is mildly damp: everyone must look suspiciously at the floor once.",
+      "One-word expert: nominate somebody who may contribute only one very confident word.",
+      "Invisible parrot: one sailor repeats the funniest word they hear during the challenge.",
+      "Serious faces: anyone who laughs must perform a tiny naval salute.",
+      "Seagull interruption: the captain may shout ‘SEAGULL!’ once and everybody must freeze.",
+      "Tour guide mode: explain events as though leading a coach trip for confused pirates.",
+      "Plot twist: the buffet is somehow responsible for everything.",
+      "Awards ceremony: finish by presenting an imaginary Golden Anchor to the best performance.",
+      "Bad dubbing: one sailor mimes while another provides their voice for ten seconds.",
+      "No pointing: anyone who points must immediately pretend they were conducting an orchestra."
     ];
 
     const QUICK_ROUTE = ["arts-house", "squid", "summer-house", "electric"];
@@ -982,6 +1050,7 @@
         stopStatus: {},
         missionIndex: {},
         orderIndex: {},
+        chaosIndex: {},
         bonusClaimed: {},
         startedAt: null
       };
@@ -1022,12 +1091,27 @@
       return venue.missions[state.missionIndex[venue.id] % venue.missions.length];
     }
 
+    function randomDifferent(length, current) {
+      if (length <= 1) return 0;
+      let next = Math.floor(Math.random() * length);
+      while (next === current) next = Math.floor(Math.random() * length);
+      return next;
+    }
+
     function orderFor(venue) {
       if (state.orderIndex[venue.id] === undefined) {
         state.orderIndex[venue.id] = Math.floor(Math.random() * ORDERS.length);
         saveState();
       }
       return ORDERS[state.orderIndex[venue.id] % ORDERS.length];
+    }
+
+    function chaosFor(venue) {
+      if (state.chaosIndex[venue.id] === undefined) {
+        state.chaosIndex[venue.id] = Math.floor(Math.random() * CHAOS_CARDS.length);
+        saveState();
+      }
+      return CHAOS_CARDS[state.chaosIndex[venue.id] % CHAOS_CARDS.length];
     }
 
     function header(menu = true) {
@@ -1049,7 +1133,7 @@
           <div class="hero-copy">
             <p class="eyebrow">Your mission awaits</p>
             <h1>Voyager<br><span>After Dark</span></h1>
-            <p>Eight bars. Eight daft sea trials. One crew with absolutely no business being in charge of a ship.</p>
+            <p>Seven evening venues. 56 daft sea trials. Random chaos at every stop. One crew with absolutely no business being in charge of a ship.</p>
             <div class="status-row">
               <span class="pill"><span class="dot ${navigator.onLine ? '' : 'offline'}"></span><span id="connectionText">${offlineReady ? 'Ready offline' : (navigator.onLine ? 'Preparing offline mode' : 'You are offline')}</span></span>
               <span class="pill">No drinking—or dignity—required</span>
@@ -1074,7 +1158,7 @@
               <div class="mode-grid" role="radiogroup" aria-label="Mission length">
                 <div class="mode-card">
                   <input id="mode-full" type="radio" name="mode" value="full" checked>
-                  <label for="mode-full"><strong>The full voyage</strong><span>8 evening venues · 8 sea marks · includes the optional Exchange stop.</span></label>
+                  <label for="mode-full"><strong>The full voyage</strong><span>7 evening venues · 7 sea marks · includes the optional Exchange stop.</span></label>
                 </div>
                 <div class="mode-card">
                   <input id="mode-quick" type="radio" name="mode" value="quick">
@@ -1087,7 +1171,7 @@
 
           <aside class="panel briefing" aria-label="Mission briefing">
             <div class="brief-item"><div class="brief-icon">🧭</div><div><strong>Real Voyager route</strong><span>Every checkpoint is matched to the correct deck.</span></div></div>
-            <div class="brief-item"><div class="brief-icon">📜</div><div><strong>Ship’s passport</strong><span>Complete a challenge to collect each venue’s sea mark.</span></div></div>
+            <div class="brief-item"><div class="brief-icon">📜</div><div><strong>56 ridiculous missions</strong><span>Every stop randomly draws a sea trial, a captain’s order and a chaos card.</span></div></div>
             <div class="brief-item"><div class="brief-icon">😂</div><div><strong>Gloriously daft</strong><span>Every stop includes a fresh opportunity to look ridiculous.</span></div></div>
             <div class="brief-item"><div class="brief-icon">🥤</div><div><strong>Any drink counts</strong><span>Water, soft drinks and mocktails are always valid.</span></div></div>
             <p class="safety-note">Unofficial, fan-made game. Keep it fun and follow crew instructions. Venue times and onboard entertainment may change during your sailing.</p>
@@ -1156,6 +1240,7 @@
                 <button class="ghost" data-action="start-timer" data-seconds="${mission.seconds}">Start</button>
               </div>
               <div class="order-card"><small>The captain says…</small><p>${orderFor(venue)}</p><button data-action="new-order" aria-label="Draw another captain's order">↻</button></div>
+              <div class="chaos-card"><small>🎲 Random chaos card</small><p>${chaosFor(venue)}</p><button data-action="new-chaos" aria-label="Draw another chaos card">↻</button></div>
               <div class="action-stack">
                 <button class="primary" data-action="complete-mission">We somehow did it · +${venue.points}</button>
                 <div class="action-row"><button class="ghost" data-action="swap-mission">Give us another</button><button class="ghost" data-action="skip-stop">Abandon this stop</button></div>
@@ -1295,17 +1380,25 @@
 
     function swapMission() {
       const venue = currentVenue();
-      state.missionIndex[venue.id] = ((state.missionIndex[venue.id] ?? 0) + 1) % venue.missions.length;
+      state.missionIndex[venue.id] = randomDifferent(venue.missions.length, state.missionIndex[venue.id]);
       saveState();
       render();
-      showToast("New challenge drawn");
+      showToast("A genuinely random challenge has arrived");
     }
 
     function newOrder() {
       const venue = currentVenue();
-      state.orderIndex[venue.id] = ((state.orderIndex[venue.id] ?? 0) + 1) % ORDERS.length;
+      state.orderIndex[venue.id] = randomDifferent(ORDERS.length, state.orderIndex[venue.id]);
       saveState();
       render();
+    }
+
+    function newChaos() {
+      const venue = currentVenue();
+      state.chaosIndex[venue.id] = randomDifferent(CHAOS_CARDS.length, state.chaosIndex[venue.id]);
+      saveState();
+      render();
+      showToast("Chaos card shuffled");
     }
 
     function formatTimer(seconds) {
@@ -1489,6 +1582,7 @@
       if (action === "next-stop") nextStop();
       if (action === "swap-mission") swapMission();
       if (action === "new-order") newOrder();
+      if (action === "new-chaos") newChaos();
       if (action === "start-timer") startTimer(button.dataset.seconds);
       if (action === "open-menu") showDialog("menuDialog");
       if (action === "show-install") { document.querySelectorAll("dialog[open]").forEach(dialog => dialog.close()); showDialog("installDialog"); }
