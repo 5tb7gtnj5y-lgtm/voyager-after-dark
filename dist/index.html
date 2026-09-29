@@ -1059,7 +1059,27 @@
     function loadState() {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        return saved && saved.version === 1 ? { ...freshState(), ...saved } : freshState();
+        if (!saved || saved.version !== 1) return freshState();
+
+        const migrated = { ...freshState(), ...saved };
+        const validVenueIds = new Set(VENUES.map(venue => venue.id));
+        migrated.route = Array.isArray(migrated.route)
+          ? migrated.route.filter(id => validVenueIds.has(id))
+          : [];
+
+        ["stopStatus", "missionIndex", "orderIndex", "chaosIndex", "bonusClaimed"].forEach(key => {
+          const values = migrated[key] && typeof migrated[key] === "object" ? migrated[key] : {};
+          migrated[key] = Object.fromEntries(Object.entries(values).filter(([id]) => validVenueIds.has(id)));
+        });
+
+        if (migrated.started && migrated.route.length === 0) {
+          migrated.route = migrated.mode === "quick" ? [...QUICK_ROUTE] : VENUES.map(venue => venue.id);
+        }
+
+        const lastStop = Math.max(0, migrated.route.length - 1);
+        migrated.current = Math.min(Math.max(0, Number(migrated.current) || 0), lastStop);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+        return migrated;
       } catch { return freshState(); }
     }
 
