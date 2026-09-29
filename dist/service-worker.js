@@ -1,4 +1,4 @@
-const CACHE = "voyager-after-dark-v8";
+const CACHE = "voyager-after-dark-v9";
 const CORE = [
   "./",
   "./index.html",
